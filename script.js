@@ -1,6 +1,3 @@
-// Import SweetAlert2 and Animate.css
-import Swal from 'sweetalert2';
-import 'animate.css';
 
 const topics = {
     art: ["Abstract Expressionism", "Renaissance Sculpture", "Pop Art", "Impressionism", "Surrealism", "Cubism", "Street Art", "Digital Art", "Photography", "Minimalism"],
