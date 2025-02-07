@@ -108,10 +108,12 @@ function generateTopic() {
 
 
 function updateSlider(index) {
-    if (topicSlider) {
-        topicSlider.style.transform = `translateX(-${index * 100}%)`;
+    if (topicSlider && topics[selectedCategory]) {
+        const itemWidth = 100 / topics[selectedCategory].length;
+        topicSlider.style.transform = `translateX(-${index * itemWidth}%)`;
     }
 }
+
 
 function showTopicAnimation(topic) {
     Swal.fire({
