@@ -1,9 +1,9 @@
 const topics = {
-    art: ["Abstract Expressionism", "Renaissance Sculpture", "Pop Art", "Impressionism", "Surrealism", "Cubism", "Street Art", "Digital Art", "Photography", "Minimalism"],
-    science: ["Quantum Mechanics", "Genetic Engineering", "Dark Matter", "Artificial Intelligence", "Climate Change", "Neuroscience", "Nanotechnology", "Astrophysics", "Renewable Energy", "Evolutionary Biology"],
-    technology: ["Blockchain", "5G Networks", "Internet of Things", "Virtual Reality", "Augmented Reality", "Cybersecurity", "Cloud Computing", "Machine Learning", "Robotics", "3D Printing"],
-    nature: ["Rainforest Ecosystem", "Marine Biology", "Volcanic Activity", "Glaciers", "Biodiversity", "Bioluminescence", "Symbiotic Relationships", "Migratory Patterns", "Camouflage in Nature", "Pollination"],
-    history: ["Ancient Civilizations", "Industrial Revolution", "World War II", "Renaissance Period", "Cold War", "Age of Exploration", "French Revolution", "Civil Rights Movement", "Fall of the Roman Empire", "Space Race"]
+    animals: ["Siamese Cat", "Golden Retriever", "Parakeet", "Koi Fish", "African Elephant", "Bengal Tiger", "Grizzly Bear", "Dutch Rabbit", "Arabian Horse", "Snowy Owl"],
+    objects: ["Ceramic Coffee Mug", "Wooden Dining Chair", "Paperback Novel", "Oak Tree", "Convertible Sports Car", "Victorian Townhouse", "Setting Sun", "Crescent Moon", "Shooting Star", "Cumulus Cloud"],
+    food: ["Red Delicious Apple", "Cavendish Banana", "Pepperoni Pizza Slice", "Chocolate Layer Cake", "Vanilla Bean Ice Cream Cone", "Classic Cheeseburger", "Crispy French Fries", "Salmon Sushi Roll", "Chocolate Chip Cookie", "Navel Orange"],
+    nature: ["Red Rose", "Rocky Mountain Peak", "Amazon River", "Maple Forest", "Sandy Beach", "Clear Blue Sky", "Gentle Rain", "Fresh Snowdrift", "Green Maple Leaf", "Smooth River Stone"],
+    fantasy: ["Red Dragon", "Forest Fairy", "Old Wizard", "Stone Castle", "Silver Sword", "Bubbling Potion", "White Unicorn", "Woodland Elf", "Garden Gnome", "Cave Troll"]
 };
 
 const currentTopic = document.getElementById('current-topic');
