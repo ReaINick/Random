@@ -1,65 +1,66 @@
 const topics = {
     animals: [
-        "African Elephant", "Alaskan Malamute", "American Quarter Horse", "Arctic Fox", "Bald Eagle",
-        "Bengal Tiger", "Black Labrador", "Blue Macaw", "Border Collie", "Bottlenose Dolphin",
-        "British Shorthair", "Brown Bear", "Camel", "Canadian Lynx", "Cardinal",
-        "Chimpanzee", "Clydesdale Horse", "Cobra", "Common Goldfish", "Corn Snake",
-        "Dalmatian", "Dart Frog", "Doberman Pinscher", "Dragonfly", "Emperor Penguin",
-        "Fennec Fox", "French Bulldog", "Gecko", "Giant Panda", "Giraffe",
-        "Great White Shark", "Grey Wolf", "Hedgehog", "Himalayan Cat", "Honeybee",
-        "Hummingbird", "Iguana", "Jack Russell Terrier", "Japanese Koi", "King Cobra",
-        "Koala", "Lion", "Maine Coon Cat", "Mandrill", "Monarch Butterfly",
-        "Orca", "Ostrich", "Otter", "Persian Cat", "Pug"
+        "Dog", "Cat", "Horse", "Cow", "Pig", "Sheep", "Goat", "Chicken", "Duck", "Goose",
+        "Lion", "Tiger", "Elephant", "Giraffe", "Zebra", "Hippo", "Rhino", "Monkey", "Gorilla", "Chimpanzee",
+        "Kangaroo", "Koala", "Penguin", "Polar Bear", "Grizzly Bear", "Panda", "Wolf", "Fox", "Deer", "Moose",
+        "Rabbit", "Squirrel", "Raccoon", "Skunk", "Beaver", "Otter", "Seal", "Walrus", "Dolphin", "Whale",
+        "Shark", "Octopus", "Jellyfish", "Starfish", "Crab", "Lobster", "Turtle", "Frog", "Toad", "Snake",
+        "Lizard", "Crocodile", "Alligator", "Eagle", "Hawk", "Owl", "Parrot", "Toucan", "Flamingo", "Peacock",
+        "Ostrich", "Hummingbird", "Swan", "Pelican", "Seagull", "Crow", "Pigeon", "Bat", "Mouse", "Rat",
+        "Hamster", "Guinea Pig", "Hedgehog", "Porcupine", "Sloth", "Armadillo", "Anteater", "Camel", "Llama", "Donkey",
+        "Mule", "Buffalo", "Bison", "Hyena", "Cheetah", "Leopard", "Jaguar", "Lynx", "Badger", "Meerkat",
+        "Weasel", "Platypus", "Tasmanian Devil", "Komodo Dragon", "Iguana", "Chameleon", "Scorpion", "Butterfly", "Ladybug", "Ant"
     ],
     objects: [
-        "Antique Pocket Watch", "Art Deco Lamp", "Astronaut Helmet", "Acoustic Guitar", "Bamboo Flute",
-        "Baseball Glove", "Bicycle with Basket", "Binoculars", "Brass Telescope", "Bronze Statue",
-        "Candelabra", "Canvas Tent", "Ceramic Teapot", "Chess Set", "Clay Vase",
-        "Cobblestone Street", "Compass", "Crystal Chandelier", "Desktop Computer", "Diamond Ring",
-        "Easel with Painting", "Electric Guitar", "Feather Quill Pen", "Fireplace with Logs", "Fountain Pen",
-        "Garden Gnome", "Gas Lantern", "Glass Bottle", "Golden Crown", "Grand Piano",
-        "Handmade Quilt", "Harmonica", "Hourglass", "Iron Gate", "Ivory Chess Piece",
-        "Jade Necklace", "Kaleidoscope", "Leather Journal", "Lighthouse", "Lock and Key",
-        "Magnifying Glass", "Maraca", "Metal Detector", "Microphone", "Mosaic Tile",
-        "Oil Lamp", "Origami Crane", "Outdoor Grill", "Oboe", "Pocket Knife"
+        "Watch", "Lamp", "Helmet", "Guitar", "Flute", "Baseball", "Bicycle", "Binoculars", "Telescope", "Statue",
+        "Candle", "Tent", "Teapot", "Chess Set", "Vase", "Compass", "Chandelier", "Computer", "Ring", "Painting",
+        "Pen", "Fireplace", "Gnome", "Lantern", "Bottle", "Crown", "Piano", "Quilt", "Harmonica", "Hourglass",
+        "Gate", "Necklace", "Journal", "Lighthouse", "Lock", "Key", "Magnifying Glass", "Microphone", "Tile", "Oil Lamp",
+        "Crane", "Grill", "Knife", "Typewriter", "Chair", "Ship Model", "Sword", "Window", "Sundial", "Thimble",
+        "Mask", "Dollhouse", "Camera", "Violin", "Basket", "Wind Chimes", "Rocking Horse", "Xylophone", "Yarn", "Clock",
+        "TV", "Anvil", "Birdcage", "Forge", "Broom", "Chalkboard", "Pencil", "Ruler", "Scissors", "Glue",
+        "Stapler", "Eraser", "Notebook", "Backpack", "Lunchbox", "Thermos", "Mug", "Plate", "Bowl", "Fork",
+        "Spoon", "Kettle", "Toaster", "Blender", "Mixer", "Fridge", "Stove", "Oven", "Microwave", "Dishwasher",
+        "Washing Machine", "Dryer", "Vacuum", "Mop", "Bucket", "Sponge", "Towel", "Soap", "Toothbrush", "Comb"
     ],
     food: [
-        "Apple Pie", "Bacon Cheeseburger", "Baked Ziti", "Banana Split", "Beef Stir Fry",
-        "Black Forest Cake", "Blueberry Pancakes", "Buffalo Wings", "Caesar Salad", "Cannoli",
-        "Caramel Apple", "Cheese Pizza", "Chicken Fajitas", "Chocolate Brownie", "Coconut Shrimp",
-        "Corn on the Cob", "Crab Rangoon", "Croissant", "Donut", "Egg Rolls",
-        "Fish and Chips", "French Dip Sandwich", "Fried Rice", "Garlic Bread", "Gingerbread Cookie",
-        "Grapefruit", "Green Smoothie", "Grilled Cheese Sandwich", "Gyro", "Hamburger",
-        "Hot Dog", "Ice Cream Sundae", "Jalapeno Poppers", "Key Lime Pie", "Lasagna",
-        "Lemon Meringue Pie", "Lobster Bisque", "Macaroon", "Mango Sorbet", "Meatball Sub",
-        "Nachos", "Onion Rings", "Oreo Milkshake", "Paella", "Peach Cobbler",
-        "Philly Cheesesteak", "Pineapple Pizza", "Pork BBQ Sandwich", "Pretzel", "Pumpkin Pie"
+        "Pizza", "Burger", "Fries", "Hot Dog", "Taco", "Burrito", "Sandwich", "Pasta", "Spaghetti", "Lasagna",
+        "Salad", "Soup", "Steak", "Chicken", "Pork Chop", "Bacon", "Ham", "Sausage", "Fish", "Shrimp",
+        "Crab", "Lobster", "Rice", "Beans", "Potato", "Carrot", "Broccoli", "Cauliflower", "Corn", "Peas",
+        "Tomato", "Cucumber", "Lettuce", "Onion", "Garlic", "Pepper", "Mushroom", "Egg", "Cheese", "Yogurt",
+        "Milk", "Butter", "Bread", "Toast", "Bagel", "Muffin", "Croissant", "Pancake", "Waffle", "Cereal",
+        "Oatmeal", "Apple", "Banana", "Orange", "Grape", "Strawberry", "Blueberry", "Raspberry", "Peach", "Pear",
+        "Plum", "Cherry", "Watermelon", "Melon", "Pineapple", "Mango", "Kiwi", "Lemon", "Lime", "Coconut",
+        "Avocado", "Olive", "Peanut", "Almond", "Walnut", "Cashew", "Ice Cream", "Cake", "Pie", "Cookie",
+        "Brownie", "Donut", "Candy", "Chocolate", "Popcorn", "Chips", "Pretzel", "Nachos", "Salsa", "Guacamole",
+        "Hummus", "Ketchup", "Mustard", "Mayonnaise", "Soy Sauce", "Honey", "Jam", "Jelly", "Sugar", "Salt"
     ],
     nature: [
-        "Aurora Borealis", "Bamboo Forest", "Canyon Sunset", "Cherry Blossom Tree", "Clear Mountain Lake",
-        "Coastal Cliff", "Coral Reef", "Desert Oasis", "Double Rainbow", "Eucalyptus Grove",
-        "Field of Lavender", "Fireflies at Dusk", "Glacier Cave", "Grand Canyon", "Green Meadow",
-        "Iceberg", "Jungle Waterfall", "Lightning Storm", "Limestone Cave", "Maple Tree in Autumn",
-        "Midnight Sky", "Misty Mountain Range", "Mossy Forest Floor", "Northern Lights", "Oak Tree",
-        "Ocean Waves", "Palm Tree on Beach", "Pine Forest", "Poppy Field", "Rainforest Canopy",
-        "Rocky Beach", "Sand Dunes", "Sequoia Tree", "Snow Covered Mountain", "Spring Meadow",
-        "Starry Night", "Sunflower Field", "Sunset over Ocean", "Thunderstorm", "Tropical Beach",
-        "Volcanic Eruption", "Waterfall", "Wheat Field", "Wildflower Meadow", "Windy Desert",
-        "Winter Forest", "Zen Garden", "Arctic Tundra", "Autumn Leaves", "Bayou (Specific Swamp region)"
+        "Mountain", "Valley", "Hill", "Cliff", "Cave", "River", "Lake", "Ocean", "Beach", "Island",
+        "Forest", "Jungle", "Desert", "Oasis", "Glacier", "Iceberg", "Volcano", "Geyser", "Waterfall", "Canyon",
+        "Gorge", "Prairie", "Meadow", "Field", "Grassland", "Tundra", "Savanna", "Marsh", "Swamp", "Coral Reef",
+        "Tide Pool", "Lagoon", "Bay", "Peninsula", "Fjord", "Dune", "Delta", "Estuary", "Spring", "Pond",
+        "Creek", "Stream", "Rapids", "Flood Plain", "Basin", "Plateau", "Mesa", "Butte", "Crevasse", "Cavern",
+        "Grotto", "Ravine", "Gully", "Bluff", "Ridge", "Peak", "Summit", "Crag", "Pinnacle", "Spire",
+        "Arch", "Pillar", "Monolith", "Boulder", "Pebble", "Sand", "Soil", "Clay", "Mud", "Lava",
+        "Magma", "Ash", "Smoke", "Cloud", "Rain", "Snow", "Hail", "Sleet", "Fog", "Mist",
+        "Dew", "Frost", "Ice", "Rainbow", "Aurora", "Lightning", "Thunder", "Tornado", "Hurricane", "Typhoon",
+        "Cyclone", "Earthquake", "Tsunami", "Avalanche", "Landslide", "Erosion", "Sedimentation", "Weathering", "Fossil", "Geode"
     ],
     fantasy: [
-        "Ancient Dragon Hoard", "Crystal Ball", "Enchanted Forest", "Elven Archer", "Fairy Circle",
-        "Flying Carpet", "Gryphon", "Haunted Castle", "Ice Queen", "Invisible Cloak", 
-        "Jeweled Dagger", "Knight Errant", "Lost City of Atlantis", "Magic Potion", "Minotaur",
-        "Necromancer", "Ogre", "Phoenix Rising", "Pixie Dust", "Questing Beast",
-        "Rainbow Bridge", "Rune Stone", "Sea Serpent", "Shadow Walker", "Sorcerer's Apprentice",
-        "Talking Tree", "Teleportation Device", "Unicorn Meadow", "Vampire Bat", "Wishing Well",
-        "Xenomorph", "Yggdrasil", "Zombie Horde", "Angelic Halo", "Bag of Holding",
-        "Cursed Artifact", "Dimensional Portal", "Elemental Golem", "Fountain of Youth", "Gate to Another World",
-        "Holy Grail", "Illusionist's Wand", "Jinn in a Lamp", "Kraken", "Leviathan",
-        "Mystic Amulet", "Nymph", "Orb of Power", "Pegasus"
+        "Dragon", "Unicorn", "Mermaid", "Centaur", "Griffin", "Phoenix", "Pegasus", "Fairy", "Elf", "Dwarf",
+        "Goblin", "Orc", "Troll", "Ogre", "Giant", "Wizard", "Witch", "Sorcerer", "Warlock", "Necromancer",
+        "Paladin", "Knight", "Warrior", "Archer", "Rogue", "Bard", "Cleric", "Druid", "Monk", "Vampire",
+        "Werewolf", "Zombie", "Ghost", "Demon", "Angel", "God", "Goddess", "Titan", "Cyclops", "Minotaur",
+        "Hydra", "Chimera", "Kraken", "Leviathan", "Basilisk", "Cockatrice", "Manticore", "Sphinx", "Harpy", "Siren",
+        "Nymph", "Dryad", "Satyr", "Faun", "Leprechaun", "Gnome", "Pixie", "Sprite", "Imp", "Gremlin",
+        "Golem", "Elemental", "Djinn", "Ifrit", "Banshee", "Wraith", "Lich", "Mummy", "Skeleton", "Gargoyle",
+        "Doppelganger", "Shapeshifter", "Naga", "Kitsune", "Tanuki", "Yeti", "Sasquatch", "Loch Ness Monster", "Chupacabra", "Alien",
+        "Robot", "Cyborg", "Android", "Mutant", "Superhero", "Supervillain", "Time Traveler", "Psychic", "Telepath", "Telekinetic",
+        "Pyrokinetic", "Cryokinetic", "Electrokinetic", "Invisible Man", "Shrinking Man", "Giant Man", "Elastic Man", "Flying Man", "Speedster", "Mind Reader"
     ]
 };
+
 
 
 const currentTopic = document.getElementById('current-topic');
@@ -75,9 +76,11 @@ let currentTopicIndex = 0;
 let selectedCategory = 'all';
 
 function initializeSlider() {
-    const allTopics = Object.values(topics).flat();
+    const categoriesToUse = selectedCategory === 'all' ? Object.keys(topics) : [selectedCategory];
+    const topicsToUse = categoriesToUse.flatMap(category => topics[category]);
+    
     topicSlider.innerHTML = ''; // Clear existing slider items
-    allTopics.forEach((topic, index) => {
+    topicsToUse.forEach((topic, index) => {
         const sliderItem = document.createElement('div');
         sliderItem.classList.add('slider-item');
         sliderItem.textContent = topic;
@@ -89,14 +92,13 @@ function initializeSlider() {
 function generateTopic() {
     clearInterval(timerInterval);
     
-    let availableTopics;
-    if (selectedCategory === 'all') {
-        availableTopics = Object.values(topics).flat();
-    } else if (topics[selectedCategory]) {
-        availableTopics = topics[selectedCategory];
-    } else {
-        console.error(`Category "${selectedCategory}" not found`);
-        return; // Exit the function if the category doesn't exist
+    let availableTopics = selectedCategory === 'all' 
+        ? Object.values(topics).flat() 
+        : topics[selectedCategory];
+
+    if (!availableTopics || availableTopics.length === 0) {
+        console.error('No topics available for the selected category');
+        return;
     }
 
     currentTopicIndex = Math.floor(Math.random() * availableTopics.length);
@@ -106,14 +108,21 @@ function generateTopic() {
     updateSlider(currentTopicIndex);
 }
 
-
 function updateSlider(index) {
-    if (topicSlider && topics[selectedCategory]) {
-        const itemWidth = 100 / topics[selectedCategory].length;
+    if (topicSlider) {
+        const availableTopics = selectedCategory === 'all' 
+            ? Object.values(topics).flat() 
+            : topics[selectedCategory];
+        
+        if (!availableTopics || availableTopics.length === 0) {
+            console.error('No topics available for updating slider');
+            return;
+        }
+
+        const itemWidth = 100 / availableTopics.length;
         topicSlider.style.transform = `translateX(-${index * itemWidth}%)`;
     }
 }
-
 
 function showTopicAnimation(topic) {
     Swal.fire({
@@ -210,37 +219,23 @@ function addToHistory(topic) {
     }
 }
 
-generateButton.addEventListener('click', generateTopic);
-
-categorySelect.addEventListener('change', (e) => {
-    selectedCategory = e.target.value;
-    initializeSlider();
-});
-
-// Initialize the slider
-initializeSlider();
-
 // Event listeners
-if (generateButton) generateButton.addEventListener('click', generateTopic);
+if (generateButton) {
+    generateButton.addEventListener('click', generateTopic);
+}
+
 if (categorySelect) {
     categorySelect.addEventListener('change', (e) => {
         selectedCategory = e.target.value;
         initializeSlider();
+        generateTopic(); // Generate a new topic when category changes
     });
 }
-// Add some extra animations for UI elements
-generateButton.addEventListener('mouseenter', () => {
-    generateButton.classList.add('animate__animated', 'animate__pulse');
-});
 
-generateButton.addEventListener('mouseleave', () => {
-    generateButton.classList.remove('animate__animated', 'animate__pulse');
-});
+// Initialize the slider
+initializeSlider();
 
-// Animate category select on change a
-categorySelect.addEventListener('change', () => {
-    categorySelect.classList.add('animate__animated', 'animate__flipInX');
-    setTimeout(() => {
-        categorySelect.classList.remove('animate__animated', 'animate__flipInX');
-    }, 1000);
-});
+// Add error handling for missing elements
+if (!topicSlider) console.error('Topic slider element not found');
+if (!generateButton) console.error('Generate button element not found');
+if (!categorySelect) console.error('Category select element not found');
