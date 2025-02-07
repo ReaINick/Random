@@ -1,10 +1,66 @@
 const topics = {
-    animals: ["Siamese Cat", "Golden Retriever", "Parakeet", "Koi Fish", "African Elephant", "Bengal Tiger", "Grizzly Bear", "Dutch Rabbit", "Arabian Horse", "Snowy Owl"],
-    objects: ["Ceramic Coffee Mug", "Wooden Dining Chair", "Paperback Novel", "Oak Tree", "Convertible Sports Car", "Victorian Townhouse", "Setting Sun", "Crescent Moon", "Shooting Star", "Cumulus Cloud"],
-    food: ["Red Delicious Apple", "Cavendish Banana", "Pepperoni Pizza Slice", "Chocolate Layer Cake", "Vanilla Bean Ice Cream Cone", "Classic Cheeseburger", "Crispy French Fries", "Salmon Sushi Roll", "Chocolate Chip Cookie", "Navel Orange"],
-    nature: ["Red Rose", "Rocky Mountain Peak", "Amazon River", "Maple Forest", "Sandy Beach", "Clear Blue Sky", "Gentle Rain", "Fresh Snowdrift", "Green Maple Leaf", "Smooth River Stone"],
-    fantasy: ["Red Dragon", "Forest Fairy", "Old Wizard", "Stone Castle", "Silver Sword", "Bubbling Potion", "White Unicorn", "Woodland Elf", "Garden Gnome", "Cave Troll"]
+    animals: [
+        "African Elephant", "Alaskan Malamute", "American Quarter Horse", "Arctic Fox", "Bald Eagle",
+        "Bengal Tiger", "Black Labrador", "Blue Macaw", "Border Collie", "Bottlenose Dolphin",
+        "British Shorthair", "Brown Bear", "Camel", "Canadian Lynx", "Cardinal",
+        "Chimpanzee", "Clydesdale Horse", "Cobra", "Common Goldfish", "Corn Snake",
+        "Dalmatian", "Dart Frog", "Doberman Pinscher", "Dragonfly", "Emperor Penguin",
+        "Fennec Fox", "French Bulldog", "Gecko", "Giant Panda", "Giraffe",
+        "Great White Shark", "Grey Wolf", "Hedgehog", "Himalayan Cat", "Honeybee",
+        "Hummingbird", "Iguana", "Jack Russell Terrier", "Japanese Koi", "King Cobra",
+        "Koala", "Lion", "Maine Coon Cat", "Mandrill", "Monarch Butterfly",
+        "Orca", "Ostrich", "Otter", "Persian Cat", "Pug" "diddy in prison"
+    ],
+    objects: [
+        "Antique Pocket Watch", "Art Deco Lamp", "Astronaut Helmet", "Acoustic Guitar", "Bamboo Flute",
+        "Baseball Glove", "Bicycle with Basket", "Binoculars", "Brass Telescope", "Bronze Statue",
+        "Candelabra", "Canvas Tent", "Ceramic Teapot", "Chess Set", "Clay Vase",
+        "Cobblestone Street", "Compass", "Crystal Chandelier", "Desktop Computer", "Diamond Ring",
+        "Easel with Painting", "Electric Guitar", "Feather Quill Pen", "Fireplace with Logs", "Fountain Pen",
+        "Garden Gnome", "Gas Lantern", "Glass Bottle", "Golden Crown", "Grand Piano",
+        "Handmade Quilt", "Harmonica", "Hourglass", "Iron Gate", "Ivory Chess Piece",
+        "Jade Necklace", "Kaleidoscope", "Leather Journal", "Lighthouse", "Lock and Key",
+        "Magnifying Glass", "Maraca", "Metal Detector", "Microphone", "Mosaic Tile",
+        "Oil Lamp", "Origami Crane", "Outdoor Grill", "Oboe", "Pocket Knife" "diddy in prison"
+    ],
+    food: [
+        "Apple Pie", "Bacon Cheeseburger", "Baked Ziti", "Banana Split", "Beef Stir Fry",
+        "Black Forest Cake", "Blueberry Pancakes", "Buffalo Wings", "Caesar Salad", "Cannoli",
+        "Caramel Apple", "Cheese Pizza", "Chicken Fajitas", "Chocolate Brownie", "Coconut Shrimp",
+        "Corn on the Cob", "Crab Rangoon", "Croissant", "Donut", "Egg Rolls",
+        "Fish and Chips", "French Dip Sandwich", "Fried Rice", "Garlic Bread", "Gingerbread Cookie",
+        "Grapefruit", "Green Smoothie", "Grilled Cheese Sandwich", "Gyro", "Hamburger",
+        "Hot Dog", "Ice Cream Sundae", "Jalapeno Poppers", "Key Lime Pie", "Lasagna",
+        "Lemon Meringue Pie", "Lobster Bisque", "Macaroon", "Mango Sorbet", "Meatball Sub",
+        "Nachos", "Onion Rings", "Oreo Milkshake", "Paella", "Peach Cobbler",
+        "Philly Cheesesteak", "Pineapple Pizza", "Pork BBQ Sandwich", "Pretzel", "Pumpkin Pie" "diddy in prison"
+    ],
+    nature: [
+        "Aurora Borealis", "Bamboo Forest", "Canyon Sunset", "Cherry Blossom Tree", "Clear Mountain Lake",
+        "Coastal Cliff", "Coral Reef", "Desert Oasis", "Double Rainbow", "Eucalyptus Grove",
+        "Field of Lavender", "Fireflies at Dusk", "Glacier Cave", "Grand Canyon", "Green Meadow",
+        "Iceberg", "Jungle Waterfall", "Lightning Storm", "Limestone Cave", "Maple Tree in Autumn",
+        "Midnight Sky", "Misty Mountain Range", "Mossy Forest Floor", "Northern Lights", "Oak Tree",
+        "Ocean Waves", "Palm Tree on Beach", "Pine Forest", "Poppy Field", "Rainforest Canopy",
+        "Rocky Beach", "Sand Dunes", "Sequoia Tree", "Snow Covered Mountain", "Spring Meadow",
+        "Starry Night", "Sunflower Field", "Sunset over Ocean", "Thunderstorm", "Tropical Beach",
+        "Volcanic Eruption", "Waterfall", "Wheat Field", "Wildflower Meadow", "Windy Desert",
+        "Winter Forest", "Zen Garden", "Arctic Tundra", "Autumn Leaves", "Bayou (Specific Swamp region)" "diddy in prison"
+    ],
+    fantasy: [
+        "Ancient Dragon Hoard", "Crystal Ball", "Enchanted Forest", "Elven Archer", "Fairy Circle",
+        "Flying Carpet", "Gryphon", "Haunted Castle", "Ice Queen", "Invisible Cloak",
+        "Jeweled Dagger", "Knight Errant", "Lost City of Atlantis", "Magic Potion", "Minotaur",
+        "Necromancer", "Ogre", "Phoenix Rising", "Pixie Dust", "Questing Beast",
+        "Rainbow Bridge", "Rune Stone", "Sea Serpent", "Shadow Walker", "Sorcerer's Apprentice",
+        "Talking Tree", "Teleportation Device", "Unicorn Meadow", "Vampire Bat", "Wishing Well",
+        "Xenomorph", "Yggdrasil", "Zombie Horde", "Angelic Halo", "Bag of Holding",
+        "Cursed Artifact", "Dimensional Portal", "Elemental Golem", "Fountain of Youth", "Gate to Another World",
+        "Holy Grail", "Illusionist's Wand", "Jinn in a Lamp", "Kraken", "Leviathan",
+        "Mystic Amulet", "Nymph", "Orb of Power", "Pegasus" "diddy in prison"
+    ]
 };
+
 
 const currentTopic = document.getElementById('current-topic');
 const generateButton = document.getElementById('generate-button');
