@@ -3,29 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Topic Generator</title>
+    <title>Wheel of Topic's</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Random Topic Generator</h1>
-        </div>
+        <header>
+            <h1 class="glitch" data-text="Random Topic Generator">Wheel of Topic'sr</h1>
+        </header>
+        
         <div class="topic-box">
             <h2 id="topic-display">Your Topic Will Appear Here</h2>
         </div>
-        <div class="spinner-container">
-            <div class="spinner" id="spinner"></div>
+        
+        <div class="slider-container">
+            <div class="slider" id="slider">
+                <div class="slider-item" id="slider-item"></div>
+            </div>
         </div>
+        
         <div class="controls">
-            <button id="generate-button">Generate Topic</button>
+            <button id="generate-button" class="neon-button">Generate Topic</button>
             <div class="timer">
-                <label for="timer">Set Timer (seconds):</label>
+                <label for="timer-input">Set Timer (seconds):</label>
                 <input type="number" id="timer-input" min="10" max="300" value="60">
                 <span id="timer-display">60</span>
             </div>
         </div>
+        
+        <div class="announcer">
+            <div class="announcer-text" id="announcer-text"></div>
+        </div>
+        
+        <div class="particles" id="particles"></div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
