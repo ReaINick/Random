@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Topic Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Random Topic Generator</h1>
+        </div>
+        <div class="topic-box">
+            <h2 id="topic-display">Your Topic Will Appear Here</h2>
+        </div>
+        <div class="spinner-container">
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div class="controls">
+            <button id="generate-button">Generate Topic</button>
+            <div class="timer">
+                <label for="timer">Set Timer (seconds):</label>
+                <input type="number" id="timer-input" min="10" max="300" value="60">
+                <span id="timer-display">60</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
