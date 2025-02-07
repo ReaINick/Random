@@ -1,4 +1,3 @@
-
 const topics = {
     art: ["Abstract Expressionism", "Renaissance Sculpture", "Pop Art", "Impressionism", "Surrealism", "Cubism", "Street Art", "Digital Art", "Photography", "Minimalism"],
     science: ["Quantum Mechanics", "Genetic Engineering", "Dark Matter", "Artificial Intelligence", "Climate Change", "Neuroscience", "Nanotechnology", "Astrophysics", "Renewable Energy", "Evolutionary Biology"],
@@ -13,6 +12,7 @@ const timerInput = document.getElementById('timer-input');
 const timerDisplay = document.getElementById('timer-display');
 const categorySelect = document.getElementById('category-select');
 const topicHistory = document.getElementById('topic-history');
+const topicSlider = document.getElementById('topic-slider');
 
 let timerInterval;
 let currentTopicIndex = 0;
@@ -20,7 +20,14 @@ let selectedCategory = 'all';
 
 function initializeSlider() {
     const allTopics = Object.values(topics).flat();
-    return allTopics;
+    topicSlider.innerHTML = ''; // Clear existing slider items
+    allTopics.forEach((topic, index) => {
+        const sliderItem = document.createElement('div');
+        sliderItem.classList.add('slider-item');
+        sliderItem.textContent = topic;
+        sliderItem.style.transform = `translateX(${index * 100}%)`;
+        topicSlider.appendChild(sliderItem);
+    });
 }
 
 function generateTopic() {
@@ -34,6 +41,13 @@ function generateTopic() {
     const selectedTopic = availableTopics[currentTopicIndex];
 
     showTopicAnimation(selectedTopic);
+    updateSlider(currentTopicIndex);
+}
+
+function updateSlider(index) {
+    if (topicSlider) {
+        topicSlider.style.transform = `translateX(-${index * 100}%)`;
+    }
 }
 
 function showTopicAnimation(topic) {
@@ -64,7 +78,7 @@ function showTopicAnimation(topic) {
                 cancelButton: 'btn btn-danger'
             }
         }).then(() => {
-            currentTopic.textContent = topic;
+            if (currentTopic) currentTopic.textContent = topic;
             startTimer();
             addToHistory(topic);
         });
@@ -141,6 +155,14 @@ categorySelect.addEventListener('change', (e) => {
 // Initialize the slider
 initializeSlider();
 
+// Event listeners
+if (generateButton) generateButton.addEventListener('click', generateTopic);
+if (categorySelect) {
+    categorySelect.addEventListener('change', (e) => {
+        selectedCategory = e.target.value;
+        initializeSlider();
+    });
+}
 // Add some extra animations for UI elements
 generateButton.addEventListener('mouseenter', () => {
     generateButton.classList.add('animate__animated', 'animate__pulse');
