@@ -89,9 +89,15 @@ function initializeSlider() {
 function generateTopic() {
     clearInterval(timerInterval);
     
-    let availableTopics = selectedCategory === 'all' 
-        ? Object.values(topics).flat() 
-        : topics[selectedCategory];
+    let availableTopics;
+    if (selectedCategory === 'all') {
+        availableTopics = Object.values(topics).flat();
+    } else if (topics[selectedCategory]) {
+        availableTopics = topics[selectedCategory];
+    } else {
+        console.error(`Category "${selectedCategory}" not found`);
+        return; // Exit the function if the category doesn't exist
+    }
 
     currentTopicIndex = Math.floor(Math.random() * availableTopics.length);
     const selectedTopic = availableTopics[currentTopicIndex];
@@ -99,6 +105,7 @@ function generateTopic() {
     showTopicAnimation(selectedTopic);
     updateSlider(currentTopicIndex);
 }
+
 
 function updateSlider(index) {
     if (topicSlider) {
