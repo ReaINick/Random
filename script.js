@@ -228,7 +228,7 @@ generateButton.addEventListener('mouseleave', () => {
     generateButton.classList.remove('animate__animated', 'animate__pulse');
 });
 
-// Animate category select on change
+// Animate category select on change a
 categorySelect.addEventListener('change', () => {
     categorySelect.classList.add('animate__animated', 'animate__flipInX');
     setTimeout(() => {
