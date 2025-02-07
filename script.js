@@ -9,7 +9,7 @@ const topics = {
         "Great White Shark", "Grey Wolf", "Hedgehog", "Himalayan Cat", "Honeybee",
         "Hummingbird", "Iguana", "Jack Russell Terrier", "Japanese Koi", "King Cobra",
         "Koala", "Lion", "Maine Coon Cat", "Mandrill", "Monarch Butterfly",
-        "Orca", "Ostrich", "Otter", "Persian Cat", "Pug" "diddy in prison"
+        "Orca", "Ostrich", "Otter", "Persian Cat", "Pug"
     ],
     objects: [
         "Antique Pocket Watch", "Art Deco Lamp", "Astronaut Helmet", "Acoustic Guitar", "Bamboo Flute",
@@ -21,7 +21,7 @@ const topics = {
         "Handmade Quilt", "Harmonica", "Hourglass", "Iron Gate", "Ivory Chess Piece",
         "Jade Necklace", "Kaleidoscope", "Leather Journal", "Lighthouse", "Lock and Key",
         "Magnifying Glass", "Maraca", "Metal Detector", "Microphone", "Mosaic Tile",
-        "Oil Lamp", "Origami Crane", "Outdoor Grill", "Oboe", "Pocket Knife" "diddy in prison"
+        "Oil Lamp", "Origami Crane", "Outdoor Grill", "Oboe", "Pocket Knife"
     ],
     food: [
         "Apple Pie", "Bacon Cheeseburger", "Baked Ziti", "Banana Split", "Beef Stir Fry",
@@ -45,11 +45,11 @@ const topics = {
         "Rocky Beach", "Sand Dunes", "Sequoia Tree", "Snow Covered Mountain", "Spring Meadow",
         "Starry Night", "Sunflower Field", "Sunset over Ocean", "Thunderstorm", "Tropical Beach",
         "Volcanic Eruption", "Waterfall", "Wheat Field", "Wildflower Meadow", "Windy Desert",
-        "Winter Forest", "Zen Garden", "Arctic Tundra", "Autumn Leaves", "Bayou (Specific Swamp region)" "diddy in prison"
+        "Winter Forest", "Zen Garden", "Arctic Tundra", "Autumn Leaves", "Bayou (Specific Swamp region)"
     ],
     fantasy: [
         "Ancient Dragon Hoard", "Crystal Ball", "Enchanted Forest", "Elven Archer", "Fairy Circle",
-        "Flying Carpet", "Gryphon", "Haunted Castle", "Ice Queen", "Invisible Cloak",
+        "Flying Carpet", "Gryphon", "Haunted Castle", "Ice Queen", "Invisible Cloak", 
         "Jeweled Dagger", "Knight Errant", "Lost City of Atlantis", "Magic Potion", "Minotaur",
         "Necromancer", "Ogre", "Phoenix Rising", "Pixie Dust", "Questing Beast",
         "Rainbow Bridge", "Rune Stone", "Sea Serpent", "Shadow Walker", "Sorcerer's Apprentice",
@@ -57,7 +57,7 @@ const topics = {
         "Xenomorph", "Yggdrasil", "Zombie Horde", "Angelic Halo", "Bag of Holding",
         "Cursed Artifact", "Dimensional Portal", "Elemental Golem", "Fountain of Youth", "Gate to Another World",
         "Holy Grail", "Illusionist's Wand", "Jinn in a Lamp", "Kraken", "Leviathan",
-        "Mystic Amulet", "Nymph", "Orb of Power", "Pegasus" "diddy in prison"
+        "Mystic Amulet", "Nymph", "Orb of Power", "Pegasus"
     ]
 };
 
