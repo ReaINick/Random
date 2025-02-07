@@ -3,41 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wheel of Topic's</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Techno Topic Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1 class="glitch" data-text="Random Topic Generator">Wheel of Topic'sr</h1>
-        </header>
-        
-        <div class="topic-box">
-            <h2 id="topic-display">Your Topic Will Appear Here</h2>
-        </div>
-        
-        <div class="slider-container">
-            <div class="slider" id="slider">
-                <div class="slider-item" id="slider-item"></div>
-            </div>
-        </div>
-        
-        <div class="controls">
-            <button id="generate-button" class="neon-button">Generate Topic</button>
-            <div class="timer">
-                <label for="timer-input">Set Timer (seconds):</label>
-                <input type="number" id="timer-input" min="10" max="300" value="60">
-                <span id="timer-display">60</span>
-            </div>
-        </div>
-        
-        <div class="announcer">
-            <div class="announcer-text" id="announcer-text"></div>
-        </div>
-        
-        <div class="particles" id="particles"></div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+<body bgcolor="black" text="cyan">
+    <header>
+        <h1 align="center" style="font-family: 'Courier New', monospace; font-size: 3em; text-shadow: 0 0 10px cyan;">
+            Techno Topic Generator
+        </h1>
+    </header>
+
+    <main align="center" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <section id="topic-display" style="margin-bottom: 30px;">
+            <h2 id="current-topic" style="font-family: 'Arial', sans-serif; font-size: 2.5em; color: #00ffff; text-shadow: 0 0 15px #00ffff;">
+                Your Topic Will Appear Here
+            </h2>
+        </section>
+
+        <section id="controls" style="margin-bottom: 30px;">
+            <button id="generate-button" style="background-color: #00ffff; color: black; border: none; padding: 15px 30px; font-size: 1.2em; cursor: pointer; border-radius: 5px;">
+                Generate Topic
+            </button>
+        </section>
+
+        <section id="timer-section" style="margin-bottom: 30px;">
+            <label for="timer-input" style="font-size: 1.2em; margin-right: 10px;">Set Timer (seconds):</label>
+            <input type="number" id="timer-input" min="10" max="300" value="60" style="background-color: #333; color: #00ffff; border: 1px solid #00ffff; padding: 5px; font-size: 1em;">
+            <span id="timer-display" style="font-size: 1.5em; margin-left: 10px;">60</span>
+        </section>
+
+        <section id="category-section" style="margin-bottom: 30px;">
+            <label for="category-select" style="font-size: 1.2em; margin-right: 10px;">Select Category:</label>
+            <select id="category-select" style="background-color: #333; color: #00ffff; border: 1px solid #00ffff; padding: 5px; font-size: 1em;">
+                <option value="all">All Categories</option>
+                <option value="art">Art</option>
+                <option value="science">Science</option>
+                <option value="technology">Technology</option>
+                <option value="nature">Nature</option>
+                <option value="history">History</option>
+            </select>
+        </section>
+
+        <section id="history-section" style="margin-top: 30px;">
+            <h3 style="font-family: 'Arial', sans-serif; color: #00ffff; text-shadow: 0 0 5px #00ffff;">Previous Topics</h3>
+            <ul id="topic-history" style="list-style-type: none; padding: 0;">
+                <!-- Topic history will be dynamically added here -->
+            </ul>
+        </section>
+    </main>
+
+    <footer align="center" style="margin-top: 50px; font-size: 0.8em; color: #666;">
+        <p>&copy; 2025 Techno Topic Generator. All rights reserved.</p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
