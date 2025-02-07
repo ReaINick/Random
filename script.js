@@ -33,7 +33,7 @@ const topics = {
         "Hot Dog", "Ice Cream Sundae", "Jalapeno Poppers", "Key Lime Pie", "Lasagna",
         "Lemon Meringue Pie", "Lobster Bisque", "Macaroon", "Mango Sorbet", "Meatball Sub",
         "Nachos", "Onion Rings", "Oreo Milkshake", "Paella", "Peach Cobbler",
-        "Philly Cheesesteak", "Pineapple Pizza", "Pork BBQ Sandwich", "Pretzel", "Pumpkin Pie" "diddy in prison"
+        "Philly Cheesesteak", "Pineapple Pizza", "Pork BBQ Sandwich", "Pretzel", "Pumpkin Pie"
     ],
     nature: [
         "Aurora Borealis", "Bamboo Forest", "Canyon Sunset", "Cherry Blossom Tree", "Clear Mountain Lake",
