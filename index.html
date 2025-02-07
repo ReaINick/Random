@@ -3,27 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techno Topic Generator</title>
+    <title>Wheel of Topics</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            background-color: black;
+            color: cyan;
+            font-family: 'Arial', sans-serif;
+        }
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .slider-item {
+            flex: 0 0 100%;
+            text-align: center;
+            font-size: 2em;
+            color: #00ffff;
+        }
+    </style>
 </head>
-<body bgcolor="black" text="cyan">
+<body>
     <header>
-        <h1 align="center" style="font-family: 'Courier New', monospace; font-size: 3em; text-shadow: 0 0 10px cyan;">
-            Techno Topic Generator
+        <h1 align="center" style="font-family: 'Courier New', monospace; font-size: 3em; text-shadow: 0 0 10px cyan;" class="animate__animated animate__fadeIn">
+            Wheel of Topics
         </h1>
     </header>
 
     <main align="center" style="max-width: 800px; margin: 0 auto; padding: 20px;">
         <section id="topic-display" style="margin-bottom: 30px;">
-            <h2 id="current-topic" style="font-family: 'Arial', sans-serif; font-size: 2.5em; color: #00ffff; text-shadow: 0 0 15px #00ffff;">
-                Your Topic Will Appear Here
+            <h2 id="current-topic" style="font-size: 2.5em; color: #00ffff; text-shadow: 0 0 15px #00ffff;" class="animate__animated animate__pulse">
+                Results appear here
             </h2>
         </section>
 
+        <div class="slider-container">
+            <div class="slider" id="topic-slider">
+                <!-- Slider items will be dynamically added here -->
+            </div>
+        </div>
+
         <section id="controls" style="margin-bottom: 30px;">
-            <button id="generate-button" style="background-color: #00ffff; color: black; border: none; padding: 15px 30px; font-size: 1.2em; cursor: pointer; border-radius: 5px;">
-                Generate Topic
+            <button id="generate-button" style="background-color: #00ffff; color: black; border: none; padding: 15px 30px; font-size: 1.2em; cursor: pointer; border-radius: 5px;" class="animate__animated animate__bounceIn">
+                SLIDE
             </button>
         </section>
 
@@ -46,7 +74,7 @@
         </section>
 
         <section id="history-section" style="margin-top: 30px;">
-            <h3 style="font-family: 'Arial', sans-serif; color: #00ffff; text-shadow: 0 0 5px #00ffff;">Previous Topics</h3>
+            <h3 style="color: #00ffff; text-shadow: 0 0 5px #00ffff;">Previous Topics</h3>
             <ul id="topic-history" style="list-style-type: none; padding: 0;">
                 <!-- Topic history will be dynamically added here -->
             </ul>
