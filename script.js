@@ -75,14 +75,25 @@ let timerInterval;
 let currentTopicIndex = 0;
 let selectedCategory = 'all';
 
+// Validate if elements exist
+if (!currentTopic) console.error('current-topic element not found');
+if (!generateButton) console.error('generate-button element not found');
+if (!timerInput) console.error('timer-input element not found');
+if (!timerDisplay) console.error('timer-display element not found');
+if (!categorySelect) console.error('category-select element not found');
+if (!topicHistory) console.error('topic-history element not found');
+if (!topicSlider) console.error('topic-slider element not found');
+
 function initializeSlider() {
+    if (!topicSlider) return; // Exit if topicSlider is null
+
     const categoriesToUse = selectedCategory === 'all' ? Object.keys(topics) : [selectedCategory];
     const topicsToUse = categoriesToUse.flatMap(category => topics[category]);
-    
+
     topicSlider.innerHTML = ''; // Clear existing slider items
     topicsToUse.forEach((topic, index) => {
         const sliderItem = document.createElement('div');
-        sliderItem.classList.add('slider-item');
+        sliderItem.classList.add('slider-item', 'animate__animated', 'animate__fadeInLeft');
         sliderItem.textContent = topic;
         sliderItem.style.transform = `translateX(${index * 100}%)`;
         topicSlider.appendChild(sliderItem);
@@ -90,14 +101,17 @@ function initializeSlider() {
 }
 
 function generateTopic() {
+    if (!currentTopic || !topicSlider) return;
+
     clearInterval(timerInterval);
-    
-    let availableTopics = selectedCategory === 'all' 
-        ? Object.values(topics).flat() 
+
+    let availableTopics = selectedCategory === 'all'
+        ? Object.values(topics).flat()
         : topics[selectedCategory];
 
     if (!availableTopics || availableTopics.length === 0) {
         console.error('No topics available for the selected category');
+        currentTopic.textContent = 'No topics available. Please select another category.';
         return;
     }
 
@@ -109,22 +123,24 @@ function generateTopic() {
 }
 
 function updateSlider(index) {
-    if (topicSlider) {
-        const availableTopics = selectedCategory === 'all' 
-            ? Object.values(topics).flat() 
-            : topics[selectedCategory];
-        
-        if (!availableTopics || availableTopics.length === 0) {
-            console.error('No topics available for updating slider');
-            return;
-        }
+    if (!topicSlider) return;
 
-        const itemWidth = 100 / availableTopics.length;
-        topicSlider.style.transform = `translateX(-${index * itemWidth}%)`;
+    const availableTopics = selectedCategory === 'all'
+        ? Object.values(topics).flat()
+        : topics[selectedCategory];
+
+    if (!availableTopics || availableTopics.length === 0) {
+        console.error('No topics available for updating slider');
+        return;
     }
+
+    const itemWidth = 100 / availableTopics.length;
+    topicSlider.style.transform = `translateX(-${index * itemWidth}%)`;
 }
 
 function showTopicAnimation(topic) {
+    if (!currentTopic) return;
+
     Swal.fire({
         title: 'Generating Topic...',
         html: '<div class="spinner"></div>',
@@ -140,26 +156,18 @@ function showTopicAnimation(topic) {
             Swal.showLoading();
         }
     }).then(() => {
-        Swal.fire({
-            title: 'Your Topic Is:',
-            html: `<h2 class="animate__animated animate__bounceIn">${topic}</h2>`,
-            icon: 'success',
-            showConfirmButton: false,
-            showCancelButton: true,
-            cancelButtonText: 'Close',
-            customClass: {
-                popup: 'animate__animated animate__zoomIn',
-                cancelButton: 'btn btn-danger'
-            }
-        }).then(() => {
-            if (currentTopic) currentTopic.textContent = topic;
-            startTimer();
-            addToHistory(topic);
-        });
+        currentTopic.classList.remove('animate__animated', 'animate__bounceIn'); // Remove previous animation
+        currentTopic.textContent = topic;
+        currentTopic.classList.add('animate__animated', 'animate__bounceIn'); // Add new animation
+
+        startTimer();
+        addToHistory(topic);
     });
 }
 
 function startTimer() {
+    if (!timerInput || !timerDisplay) return;
+
     let timeLeft = parseInt(timerInput.value, 10);
     updateTimerDisplay(timeLeft);
 
@@ -175,6 +183,8 @@ function startTimer() {
 }
 
 function updateTimerDisplay(time) {
+    if (!timerDisplay) return;
+
     timerDisplay.textContent = time;
     if (time <= 10) {
         timerDisplay.classList.add('animate__animated', 'animate__pulse');
@@ -205,23 +215,29 @@ function showTimeUpAnimation() {
 }
 
 function addToHistory(topic) {
+    if (!topicHistory) return;
+
     const listItem = document.createElement('li');
     listItem.textContent = topic;
     listItem.classList.add('animate__animated', 'animate__fadeInDown');
     topicHistory.prepend(listItem);
 
-    if (topicHistory.children.length > 5) {
-        const lastChild = topicHistory.lastChild;
-        lastChild.classList.add('animate__fadeOutDown');
-        setTimeout(() => {
-            topicHistory.removeChild(lastChild);
-        }, 500);
+    // Limit history items
+    while (topicHistory.children.length > 5) {
+        topicHistory.removeChild(topicHistory.lastChild);
     }
 }
 
 // Event listeners
 if (generateButton) {
     generateButton.addEventListener('click', generateTopic);
+    generateButton.addEventListener('mouseenter', () => {
+        generateButton.classList.add('animate__animated', 'animate__pulse');
+    });
+
+    generateButton.addEventListener('mouseleave', () => {
+        generateButton.classList.remove('animate__animated', 'animate__pulse');
+    });
 }
 
 if (categorySelect) {
@@ -229,13 +245,13 @@ if (categorySelect) {
         selectedCategory = e.target.value;
         initializeSlider();
         generateTopic(); // Generate a new topic when category changes
+
+        categorySelect.classList.add('animate__animated', 'animate__flipInX');
+        setTimeout(() => {
+            categorySelect.classList.remove('animate__animated', 'animate__flipInX');
+        }, 1000);
     });
 }
 
 // Initialize the slider
 initializeSlider();
-
-// Add error handling for missing elements
-if (!topicSlider) console.error('Topic slider element not found');
-if (!generateButton) console.error('Generate button element not found');
-if (!categorySelect) console.error('Category select element not found');
