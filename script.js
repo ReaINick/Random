@@ -138,31 +138,44 @@ function updateSlider(index) {
     topicSlider.style.transform = `translateX(-${index * itemWidth}%)`;
 }
 
-function showTopicAnimation(topic) {
-    if (!currentTopic) return;
+function showTopicAnimation(availableTopics) {
+    let spinDuration = 3000; // Duration of spin animation
+    let intervalTime = 100;  // Time between topic changes
+    let startTime = null;
+    let topicIndex = 0;
 
-    Swal.fire({
-        title: 'Generating Topic...',
-        html: '<div class="spinner"></div>',
-        showConfirmButton: false,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        customClass: {
-            popup: 'animate__animated animate__fadeIn'
-        },
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: () => {
-            Swal.showLoading();
+    function animateSpin(currentTime) {
+        if (!startTime) startTime = currentTime;
+        let progress = currentTime - startTime;
+
+        if (progress < spinDuration) {
+            topicIndex = Math.floor(Math.random() * availableTopics.length);
+            let currentTopic = availableTopics[topicIndex];
+
+            Swal.fire({
+                title: 'Spinning...',
+                html: `<h2 class="animate__animated animate__flipInX">${currentTopic}</h2>`,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                timer: intervalTime,
+                didOpen: () => {
+                    Swal.getHtmlContainer().classList.add('animate__animated', 'animate__fadeIn');
+                }
+            }).then(() => {
+                if (progress + intervalTime < spinDuration) { //Check if the time of the animation reaches the end.
+                    requestAnimationFrame(animateSpin);
+                }
+                else{
+                    displayTopic(); //Animation completed
+                }
+            });
+        } else {
+            let selectedTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
+            showFinalTopic(selectedTopic);
         }
-    }).then(() => {
-        currentTopic.classList.remove('animate__animated', 'animate__bounceIn'); // Remove previous animation
-        currentTopic.textContent = topic;
-        currentTopic.classList.add('animate__animated', 'animate__bounceIn'); // Add new animation
-
-        startTimer();
-        addToHistory(topic);
-    });
+    }
+    requestAnimationFrame(animateSpin);
 }
 
 function startTimer() {
