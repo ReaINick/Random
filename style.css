@@ -1,21 +1,39 @@
+body {
+    background-color: black;
+    color: cyan;
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+}
+
 .slider-container {
     width: 100%;
     overflow: hidden;
     margin: 20px 0;
+    position: relative; /* Add this */
 }
 
 .slider {
     display: flex;
-    transition: transform 0.5s ease;
+    width: auto; /* Adjust width to fit content */
+    white-space: nowrap; /* Prevent wrapping */
+    animation: slide 20s linear infinite;
+    padding-left: 100%; /* Start offscreen right */
 }
 
 .slider-topic {
-    flex: 0 0 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: inline-block; /* Align topics horizontally */
     font-size: 2rem;
     color: #00ffff;
+    margin: 0 20px; /* Add spacing */
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0); /* Start at initial position */
+    }
+    100% {
+        transform: translateX(-100%); /* End completely offscreen left */
+    }
 }
 
 .announcer {
@@ -35,8 +53,13 @@
 }
 
 @keyframes fadeInOut {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
+    0%,
+    100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 .glitch {
@@ -70,15 +93,31 @@
 }
 
 @keyframes glitch-anim {
-    0% { clip: rect(31px, 9999px, 94px, 0); }
-    4.166666667% { clip: rect(91px, 9999px, 43px, 0); }
-    8.333333333% { clip: rect(74px, 9999px, 71px, 0); }
+    0% {
+        clip: rect(31px, 9999px, 94px, 0);
+    }
+
+    4.  166666667% {
+        clip: rect(91px, 9999px, 43px, 0);
+    }
+
+5.  333333333% {
+        clip: rect(74px, 9999px, 71px, 0);
+    }
 }
 
 @keyframes glitch-anim2 {
-    0% { clip: rect(65px, 9999px, 119px, 0); }
-    4.166666667% { clip: rect(79px, 9999px, 115px, 0); }
-    8.333333333% { clip: rect(76px, 9999px, 107px, 0); }
+    0% {
+        clip: rect(65px, 9999px, 119px, 0);
+    }
+
+    4.  166666667% {
+        clip: rect(79px, 9999px, 115px, 0);
+    }
+
+6.  333333333% {
+        clip: rect(76px, 9999px, 107px, 0);
+    }
 }
 
 #particles {
@@ -109,7 +148,9 @@
 .neon-button:hover {
     color: #255784;
     background: #00ffff;
-    box-shadow: 0 0 10px #00ffff, 0 0 40px #00ffff, 0 0 80px #00ffff;
+    box-shadow: 0 0 10px #00ffff,
+        0 0 40px #00ffff,
+        0 0 80px #00ffff;
     transition-delay: 1s;
 }
 
@@ -129,4 +170,50 @@
 .neon-button:hover span:nth-child(1) {
     left: 100%;
     transition: 1s;
+}
+
+.neon-button span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #00ffff);
+}
+
+.neon-button:hover span:nth-child(2) {
+    top: 100%;
+    transition: 1s;
+    transition-delay: 0.25s;
+}
+
+.neon-button span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, #00ffff);
+}
+
+.neon-button:hover span:nth-child(3) {
+    right: 100%;
+    transition: 1s;
+    transition-delay: 0.5s;
+}
+
+.neon-button span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #00ffff);
+}
+
+.neon-button:hover span:nth-child(4) {
+    bottom: 100%;
+    transition: 1s;
+    transition-delay: 0.75s;
+}
+
+#topic-history {
+    list-style-type: none;
 }
