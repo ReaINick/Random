@@ -92,10 +92,9 @@ function initializeSlider() {
 
     topicSlider.innerHTML = ''; // Clear existing slider items
     topicsToUse.forEach((topic, index) => {
-        const sliderItem = document.createElement('div');
-        sliderItem.classList.add('slider-item', 'animate__animated', 'animate__fadeInLeft');
+        const sliderItem = document.createElement('span'); // Use span instead of div
+        sliderItem.classList.add('slider-item'); // Remove animation class here
         sliderItem.textContent = topic;
-        sliderItem.style.transform = `translateX(${index * 100}%)`;
         topicSlider.appendChild(sliderItem);
     });
 }
@@ -115,7 +114,10 @@ function generateTopic() {
         return;
     }
 
-    showTopicAnimation(availableTopics);
+    currentTopicIndex = Math.floor(Math.random() * availableTopics.length);
+    const selectedTopic = availableTopics[currentTopicIndex];
+
+    displayFinalTopic(selectedTopic); // No longer calling this one
 }
 
 function updateTimerDisplay(time) {
@@ -164,45 +166,6 @@ function addToHistory(topic) {
     }
 }
 
-function showTopicAnimation(availableTopics) {
-    let spinDuration = 3000; // Duration of spin animation
-    let intervalTime = 100;  // Time between topic changes
-    let startTime = null;
-    let topicIndex = 0;
-
-    function animateSpin(currentTime) {
-        if (!startTime) startTime = currentTime;
-        let progress = currentTime - startTime;
-
-        if (progress < spinDuration) {
-            topicIndex = Math.floor(Math.random() * availableTopics.length);
-            let currentTopic = availableTopics[topicIndex];
-
-            Swal.fire({
-                title: 'Spinning...',
-                html: `<h2 class="animate__animated animate__flipInX">${currentTopic}</h2>`,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                timer: intervalTime,
-                didOpen: () => {
-                    Swal.getHtmlContainer().classList.add('animate__animated', 'animate__fadeIn');
-                }
-            }).then(() => {
-                if (progress + intervalTime < spinDuration) {
-                    requestAnimationFrame(animateSpin);
-                } else {
-                    displayFinalTopic(availableTopics);
-                }
-            });
-        } else {
-            let selectedTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
-            displayFinalTopic(selectedTopic);
-        }
-    }
-    requestAnimationFrame(animateSpin);
-}
-
 function displayFinalTopic(topic) {
     Swal.fire({
         title: 'Your Topic Is:',
@@ -237,31 +200,6 @@ function startTimer() {
             showTimeUpAnimation();
         }
     }, 1000);
-}
-
-// Event listeners
-if (generateButton) {
-    generateButton.addEventListener('click', generateTopic);
-    generateButton.addEventListener('mouseenter', () => {
-        generateButton.classList.add('animate__animated', 'animate__pulse');
-    });
-
-    generateButton.addEventListener('mouseleave', () => {
-        generateButton.classList.remove('animate__animated', 'animate__pulse');
-    });
-}
-
-if (categorySelect) {
-    categorySelect.addEventListener('change', (e) => {
-        selectedCategory = e.target.value;
-        initializeSlider();
-        generateTopic(); // Generate a new topic when category changes
-
-        categorySelect.classList.add('animate__animated', 'animate__flipInX');
-        setTimeout(() => {
-            categorySelect.classList.remove('animate__animated', 'animate__flipInX');
-        }, 1000);
-    });
 }
 
 // Correct the eventlistener categoryselect
@@ -301,6 +239,17 @@ function startTimer() {
     }, 1000);
 }
 
+// Event listeners
+if (generateButton) {
+    generateButton.addEventListener('click', generateTopic);
+    generateButton.addEventListener('mouseenter', () => {
+        generateButton.classList.add('animate__animated', 'animate__pulse');
+    });
+
+    generateButton.addEventListener('mouseleave', () => {
+        generateButton.classList.remove('animate__animated', 'animate__pulse');
+    });
+}
+
 // Initialize the slider
 initializeSlider();
-
