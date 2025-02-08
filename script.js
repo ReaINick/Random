@@ -101,7 +101,7 @@ function initializeSlider() {
 }
 
 function generateTopic() {
-    if (!currentTopic || !topicSlider) return;
+    if (!currentTopic) return;
 
     clearInterval(timerInterval);
 
@@ -115,84 +115,7 @@ function generateTopic() {
         return;
     }
 
-    currentTopicIndex = Math.floor(Math.random() * availableTopics.length);
-    const selectedTopic = availableTopics[currentTopicIndex];
-
-    showTopicAnimation(selectedTopic);
-    updateSlider(currentTopicIndex);
-}
-
-function updateSlider(index) {
-    if (!topicSlider) return;
-
-    const availableTopics = selectedCategory === 'all'
-        ? Object.values(topics).flat()
-        : topics[selectedCategory];
-
-    if (!availableTopics || availableTopics.length === 0) {
-        console.error('No topics available for updating slider');
-        return;
-    }
-
-    const itemWidth = 100 / availableTopics.length;
-    topicSlider.style.transform = `translateX(-${index * itemWidth}%)`;
-}
-
-function showTopicAnimation(availableTopics) {
-    let spinDuration = 3000; // Duration of spin animation
-    let intervalTime = 100;  // Time between topic changes
-    let startTime = null;
-    let topicIndex = 0;
-
-    function animateSpin(currentTime) {
-        if (!startTime) startTime = currentTime;
-        let progress = currentTime - startTime;
-
-        if (progress < spinDuration) {
-            topicIndex = Math.floor(Math.random() * availableTopics.length);
-            let currentTopic = availableTopics[topicIndex];
-
-            Swal.fire({
-                title: 'Spinning...',
-                html: `<h2 class="animate__animated animate__flipInX">${currentTopic}</h2>`,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                timer: intervalTime,
-                didOpen: () => {
-                    Swal.getHtmlContainer().classList.add('animate__animated', 'animate__fadeIn');
-                }
-            }).then(() => {
-                if (progress + intervalTime < spinDuration) { //Check if the time of the animation reaches the end.
-                    requestAnimationFrame(animateSpin);
-                }
-                else{
-                    displayTopic(); //Animation completed
-                }
-            });
-        } else {
-            let selectedTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
-            showFinalTopic(selectedTopic);
-        }
-    }
-    requestAnimationFrame(animateSpin);
-}
-
-function startTimer() {
-    if (!timerInput || !timerDisplay) return;
-
-    let timeLeft = parseInt(timerInput.value, 10);
-    updateTimerDisplay(timeLeft);
-
-    timerInterval = setInterval(() => {
-        timeLeft -= 1;
-        updateTimerDisplay(timeLeft);
-
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            showTimeUpAnimation();
-        }
-    }, 1000);
+    showTopicAnimation(availableTopics);
 }
 
 function updateTimerDisplay(time) {
@@ -241,6 +164,81 @@ function addToHistory(topic) {
     }
 }
 
+function showTopicAnimation(availableTopics) {
+    let spinDuration = 3000; // Duration of spin animation
+    let intervalTime = 100;  // Time between topic changes
+    let startTime = null;
+    let topicIndex = 0;
+
+    function animateSpin(currentTime) {
+        if (!startTime) startTime = currentTime;
+        let progress = currentTime - startTime;
+
+        if (progress < spinDuration) {
+            topicIndex = Math.floor(Math.random() * availableTopics.length);
+            let currentTopic = availableTopics[topicIndex];
+
+            Swal.fire({
+                title: 'Spinning...',
+                html: `<h2 class="animate__animated animate__flipInX">${currentTopic}</h2>`,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                timer: intervalTime,
+                didOpen: () => {
+                    Swal.getHtmlContainer().classList.add('animate__animated', 'animate__fadeIn');
+                }
+            }).then(() => {
+                if (progress + intervalTime < spinDuration) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    displayFinalTopic(availableTopics);
+                }
+            });
+        } else {
+            let selectedTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
+            displayFinalTopic(selectedTopic);
+        }
+    }
+    requestAnimationFrame(animateSpin);
+}
+
+function displayFinalTopic(topic) {
+    Swal.fire({
+        title: 'Your Topic Is:',
+        html: `<h2 class="animate__animated animate__bounceIn">${topic}</h2>`,
+        icon: 'success',
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: 'Close',
+        customClass: {
+            popup: 'animate__animated animate__zoomIn',
+            cancelButton: 'btn btn-danger'
+        }
+    }).then(() => {
+        if (currentTopic) currentTopic.textContent = topic;
+        startTimer();
+        addToHistory(topic);
+    });
+}
+
+function startTimer() {
+    if (!timerInput || !timerDisplay) return;
+
+    let timeLeft = parseInt(timerInput.value, 10);
+    updateTimerDisplay(timeLeft);
+
+    timerInterval = setInterval(() => {
+        timeLeft -= 1;
+        updateTimerDisplay(timeLeft);
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            showTimeUpAnimation();
+        }
+    }, 1000);
+}
+
 // Event listeners
 if (generateButton) {
     generateButton.addEventListener('click', generateTopic);
@@ -266,5 +264,43 @@ if (categorySelect) {
     });
 }
 
+// Correct the eventlistener categoryselect
+if (categorySelect) {
+    categorySelect.addEventListener('change', (e) => {
+        selectedCategory = e.target.value;
+
+        const categoryMap = {
+            'all': 'all',
+            'animals': 'animals',
+            'objects': 'objects',
+            'food': 'food',
+            'nature': 'nature',
+            'fantasy': 'fantasy'
+        };
+
+        selectedCategory = categoryMap[e.target.value] || 'all'; // Ensure correct mapping
+        initializeSlider();
+        generateTopic();
+    });
+}
+
+function startTimer() {
+    if (!timerInput || !timerDisplay) return;
+
+    let timeLeft = parseInt(timerInput.value, 10);
+    updateTimerDisplay(timeLeft);
+
+    timerInterval = setInterval(() => {
+        timeLeft -= 1;
+        updateTimerDisplay(timeLeft);
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            showTimeUpAnimation();
+        }
+    }, 1000);
+}
+
 // Initialize the slider
 initializeSlider();
+
