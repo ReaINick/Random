@@ -1,4 +1,4 @@
-const NAVADIVAS = 'aGZfb3N5WFNtaEtCSHpRZ3JEclF1WWNmWkNWcnlJVURHRGl3YQ=='; // Example: Replace this with your actual encoded token
+const NAVADIVAS = 'aGZfb3N5WFNtaEtCSHpRZ3JEclF1WWNmWkNWcnlJVURHRGl3YQ==';
 
 
 function Bob(JVON) {
