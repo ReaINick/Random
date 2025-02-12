@@ -1,10 +1,3 @@
-const NAVADIVAS = 'aGZfb3N5WFNtaEtCSHpRZ3JEclF1WWNmWkNWcnlJVURHRGl3YQ=='; // Base64-encoded token
-
-function Bob(JVON) {
-    return atob(JVON); // Decode the Base64-encoded token
-}
-
-// Function to generate a creative prompt using Hugging Face's GPT-2 model
 async function generatePrompt() {
     const userInput = document.getElementById('prompt-input').value;
 
@@ -33,27 +26,31 @@ async function generatePrompt() {
             body: JSON.stringify(payload),
         });
 
-        // Check if the response is not OK (error handling)
+        // Handle errors from the API
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('API Error:', errorData);
-            throw new Error(`Error ${response.status}: ${response.statusText} - ${errorData.error || 'Unknown error'}`);
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
-        // Parse the response data
         const data = await response.json();
-        console.log('API Response:', data); // Log the entire API response for debugging
+        console.log('API Response:', data); // Log full API response for debugging
 
-        // Display the generated prompt or handle empty responses
-        if (data && data.generated_text) {
-            document.getElementById('generated-prompt').textContent = data.generated_text;
-        } else {
-            document.getElementById('generated-prompt').textContent = 'No response generated. Please try again.';
-        }
+        // Extract and clean up generated text
+        let generatedText = data.generated_text || '';
+
+        // Remove any part of the response that echoes back our input prompt
+        const cleanedText = generatedText.replace(payload.inputs, '').trim();
+
+        // Split into sentences and extract only the first two
+        const sentences = cleanedText.split(/[.!?]+/).filter(Boolean);
+        const finalOutput = sentences.slice(0, 2).join('. ') + '.';
+
+        // Display the cleaned-up and parsed output in HTML
+        document.getElementById('generated-prompt').textContent =
+            finalOutput || 'No meaningful response generated. Please try again.';
     } catch (error) {
         console.error('Error generating prompt:', error);
         document.getElementById('generated-prompt').textContent =
-            `An error occurred while generating the prompt: ${error.message || 'Please try again later.'}`;
+            'An error occurred while generating the prompt. Please try again later.';
     }
 }
 
