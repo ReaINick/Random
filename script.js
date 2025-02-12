@@ -74,6 +74,8 @@ const topicSlider = document.getElementById('topic-slider');
 let timerInterval;
 let currentTopicIndex = 0;
 let selectedCategory = 'all';
+let animationFrame;
+let sliderItems;
 
 // Validate if elements exist
 if (!currentTopic) console.error('current-topic element not found');
@@ -85,18 +87,55 @@ if (!topicHistory) console.error('topic-history element not found');
 if (!topicSlider) console.error('topic-slider element not found');
 
 function initializeSlider() {
-    if (!topicSlider) return; // Exit if topicSlider is null
+    if (!topicSlider) return;
 
     const categoriesToUse = selectedCategory === 'all' ? Object.keys(topics) : [selectedCategory];
     const topicsToUse = categoriesToUse.flatMap(category => topics[category]);
 
     topicSlider.innerHTML = ''; // Clear existing slider items
-    topicsToUse.forEach((topic, index) => {
+    topicsToUse.forEach((topic) => {
         const sliderItem = document.createElement('span'); // Use span instead of div
-        sliderItem.classList.add('slider-item'); // Remove animation class here
+        sliderItem.classList.add('slider-item'); // Add class for styling and animation
         sliderItem.textContent = topic;
         topicSlider.appendChild(sliderItem);
     });
+
+    sliderItems = topicSlider.querySelectorAll('.slider-item'); // Cache all slider items
+    startSliderAnimation();
+}
+
+function startSliderAnimation() {
+    if (animationFrame) {
+        cancelAnimationFrame(animationFrame); // Cancel any ongoing animation
+    }
+    animateSlider();
+}
+
+function animateSlider() {
+    if (!sliderItems || sliderItems.length === 0) return;
+
+    const containerWidth = topicSlider.offsetWidth;
+    const itemWidth = sliderItems[0].offsetWidth;
+    const totalWidth = itemWidth * sliderItems.length;
+
+    sliderItems.forEach((item, index) => {
+        const x =
+            ((index - currentTopicIndex) * itemWidth + containerWidth) % totalWidth - itemWidth;
+        const scale =
+            1 + Math.max(0, 1 - Math.abs(x) / (containerWidth / 2)) * 0.2; // Enlarge in the center
+        const opacity =
+            Math.max(0.2, 1 - Math.abs(x) / (containerWidth / 2)); // Fade in/out effect
+
+        item.style.transform = `translateX(${x}px) scale(${scale})`;
+        item.style.opacity = opacity;
+    });
+
+    currentTopicIndex += 0.01; // Adjust speed of sliding
+    if (currentTopicIndex >= sliderItems.length) {
+        currentTopicIndex = 0;
+    }
+
+    animationFrame = requestAnimationFrame(animateSlider);
 }
 
 function generateTopic() {
@@ -104,20 +143,22 @@ function generateTopic() {
 
     clearInterval(timerInterval);
 
-    let availableTopics = selectedCategory === 'all'
-        ? Object.values(topics).flat()
-        : topics[selectedCategory];
+    let availableTopics =
+        selectedCategory === 'all'
+            ? Object.values(topics).flat()
+            : topics[selectedCategory];
 
     if (!availableTopics || availableTopics.length === 0) {
         console.error('No topics available for the selected category');
-        currentTopic.textContent = 'No topics available. Please select another category.';
+        currentTopic.textContent =
+            'No topics available. Please select another category.';
         return;
     }
 
     currentTopicIndex = Math.floor(Math.random() * availableTopics.length);
     const selectedTopic = availableTopics[currentTopicIndex];
 
-    displayFinalTopic(selectedTopic); // No longer calling this one
+    displayFinalTopic(selectedTopic); // Display the final topic
 }
 
 function updateTimerDisplay(time) {
@@ -133,7 +174,7 @@ function updateTimerDisplay(time) {
 
 function showTimeUpAnimation() {
     Swal.fire({
-        title: 'Time\'s Up!',
+        title: "Time's Up!",
         text: 'Ready for the next topic?',
         icon: 'info',
         showConfirmButton: true,
@@ -143,8 +184,8 @@ function showTimeUpAnimation() {
         customClass: {
             popup: 'animate__animated animate__shakeX',
             confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-secondary'
-        }
+            cancelButton: 'btn btn-secondary',
+        },
     }).then((result) => {
         if (result.isConfirmed) {
             generateTopic();
@@ -176,8 +217,8 @@ function displayFinalTopic(topic) {
         cancelButtonText: 'Close',
         customClass: {
             popup: 'animate__animated animate__zoomIn',
-            cancelButton: 'btn btn-danger'
-        }
+            cancelButton: 'btn btn-danger',
+        },
     }).then(() => {
         if (currentTopic) currentTopic.textContent = topic;
         startTimer();
@@ -208,12 +249,12 @@ if (categorySelect) {
         selectedCategory = e.target.value;
 
         const categoryMap = {
-            'all': 'all',
-            'animals': 'animals',
-            'objects': 'objects',
-            'food': 'food',
-            'nature': 'nature',
-            'fantasy': 'fantasy'
+            all: 'all',
+            animals: 'animals',
+            objects: 'objects',
+            food: 'food',
+            nature: 'nature',
+            fantasy: 'fantasy',
         };
 
         selectedCategory = categoryMap[e.target.value] || 'all'; // Ensure correct mapping
@@ -222,34 +263,10 @@ if (categorySelect) {
     });
 }
 
-function startTimer() {
-    if (!timerInput || !timerDisplay) return;
-
-    let timeLeft = parseInt(timerInput.value, 10);
-    updateTimerDisplay(timeLeft);
-
-    timerInterval = setInterval(() => {
-        timeLeft -= 1;
-        updateTimerDisplay(timeLeft);
-
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            showTimeUpAnimation();
-        }
-    }, 1000);
-}
-
 // Event listeners
 if (generateButton) {
     generateButton.addEventListener('click', generateTopic);
-    generateButton.addEventListener('mouseenter', () => {
-        generateButton.classList.add('animate__animated', 'animate__pulse');
-    });
-
-    generateButton.addEventListener('mouseleave', () => {
-        generateButton.classList.remove('animate__animated', 'animate__pulse');
-    });
 }
 
-// Initialize the slider
+// Initialize the slider on page load
 initializeSlider();
