@@ -7,84 +7,149 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        /* Updated Color Scheme */
         body {
-            background-color: black;
-            color: cyan;
+            background-color: #1B1F3B; /* Space Cadet */
+            color: #E1BBC9; /* Fairy Tale */
             font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
         }
+
+        header h1 {
+            font-family: 'Courier New', monospace;
+            font-size: 3em;
+            text-shadow: 0 0 15px #C874D9; /* French Mauve */
+            color: #B14AED; /* Electric Purple */
+        }
+
         .slider-container {
             width: 100%;
             overflow: hidden;
             margin: 30px 0;
+            position: relative;
+            height: 80px; /* Adjusted height for better visibility */
         }
+
         .slider {
             display: flex;
             transition: transform 0.5s ease;
         }
+
         .slider-item {
-            flex: 0 0 100%;
+            flex: 0 0 auto;
             text-align: center;
             font-size: 2em;
-            color: #00ffff;
+            color: #E1BBC9; /* Fairy Tale */
+        }
+
+        button {
+            background-color: #454ADE; /* Iris */
+            color: #E1BBC9; /* Fairy Tale */
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #B14AED; /* Electric Purple */
+            box-shadow: 0px 4px 15px rgba(177, 74, 237, 0.75);
+        }
+
+        input[type="number"], select {
+            background-color: #454ADE; /* Iris */
+            color: #E1BBC9; /* Fairy Tale */
+            border-radius: 5px;
+            border-color: transparent;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline-color: #C874D9; /* French Mauve */
+        }
+
+        select option {
+            background-color: #1B1F3B; /* Space Cadet */
+        }
+
+        #topic-history li {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1 align="center" style="font-family: 'Courier New', monospace; font-size: 3em; text-shadow: 0 0 10px cyan;" class="animate__animated animate__fadeIn">
+        <h1 align="center" class="animate__animated animate__fadeIn">
             Wheel of Topics
         </h1>
     </header>
 
     <main align="center" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <!-- Topic Display Section -->
         <section id="topic-display" style="margin-bottom: 30px;">
-            <h2 id="current-topic" style="font-size: 2.5em; color: #00ffff; text-shadow: 0 0 15px #00ffff;" class="animate__animated animate__pulse">
+            <h2 id="current-topic" style="font-size: 2.5em;" class="animate__animated animate__pulse">
                 Results appear here
             </h2>
         </section>
 
+        <!-- Slider Section -->
         <div class="slider-container">
             <div class="slider" id="topic-slider">
                 <!-- Slider items will be dynamically added here -->
             </div>
         </div>
 
+        <!-- Controls Section -->
         <section id="controls" style="margin-bottom: 30px;">
-            <button id="generate-button" style="background-color: #00ffff; color: black; border: none; padding: 15px 30px; font-size: 1.2em; cursor: pointer; border-radius: 5px;" class="animate__animated animate__bounceIn">
+            <button id="generate-button" class="animate__animated animate__bounceIn">
                 SLIDE
+                <!-- Audio element for sliding sound -->
+                <audio id="slide-audio" src="./Untitled%20song%20(3).mp3"></audio>
             </button>
         </section>
 
+        <!-- Timer Section -->
         <section id="timer-section" style="margin-bottom: 30px;">
             <label for="timer-input" style="font-size: 1.2em; margin-right: 10px;">Set Timer (seconds):</label>
-            <input type="number" id="timer-input" min="10" max="300" value="60" style="background-color: #333; color: #00ffff; border: 1px solid #00ffff; padding: 5px; font-size: 1em;">
+            <input type="number" id="timer-input" min="10" max="300" value="60">
             <span id="timer-display" style="font-size: 1.5em; margin-left: 10px;">60</span>
         </section>
 
+        <!-- Category Selector -->
         <section id="category-section" style="margin-bottom: 30px;">
             <label for="category-select" style="font-size: 1.2em; margin-right: 10px;">Select Category:</label>
-            <select id="category-select" style="background-color: #333; color: #00ffff; border: 1px solid #00ffff; padding: 5px; font-size: 1em;">
+            <select id="category-select">
                 <option value="all">All Categories</option>
-                <option value="art">Animals</option>
-                <option value="science">Objects</option>
-                <option value="technology">Food</option>
+                <option value="animals">Animals</option>
+                <option value="objects">Objects</option>
+                <option value="food">Food</option>
                 <option value="nature">Nature</option>
-                <option value="history">Fantasy</option>
+                <option value="fantasy">Fantasy</option>
             </select>
         </section>
 
+        <!-- History Section -->
         <section id="history-section" style="margin-top: 30px;">
-            <h3 style="color: #00ffff; text-shadow: 0 0 5px #00ffff;">Previous Topics</h3>
-            <ul id="topic-history" style="list-style-type: none; padding: 0;">
+            <h3>Previous Topics</h3>
+            <ul id="topic-history">
                 <!-- Topic history will be dynamically added here -->
             </ul>
         </section>
+
     </main>
 
-    <footer align="center" style="margin-top: 50px; font-size: 0.8em; color: #666;">
+    <!-- Footer Section -->
+    <footer align="center" style="margin-top: 50px; font-size: 0.8em;">
         <p>&copy; 2025 Slider Topic Generator. All rights reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Confetti Effect Placeholder -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- JavaScript -->
+    <script src="./script.js"></script>
 </body>
 </html>
