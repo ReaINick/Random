@@ -1,8 +1,7 @@
-const NAVADIVAS = 'aGZfb3N5WFNtaEtCSHpRZ3JEclF1WWNmWkNWcnlJVURHRGl3YQ==';
-
+const NAVADIVAS = 'aGZfb3N5WFNtaEtCSHpRZ3JEclF1WWNmWkNWcnlJVURHRGl3YQ=='; // Base64-encoded token
 
 function Bob(JVON) {
-    return atob(JVON); 
+    return atob(JVON); // Decode the Base64-encoded token
 }
 
 // Function to generate a creative prompt using Hugging Face's GPT-2 model
@@ -34,20 +33,27 @@ async function generatePrompt() {
             body: JSON.stringify(payload),
         });
 
-        // Handle errors from the API
+        // Check if the response is not OK (error handling)
         if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
+            const errorData = await response.json();
+            console.error('API Error:', errorData);
+            throw new Error(`Error ${response.status}: ${response.statusText} - ${errorData.error || 'Unknown error'}`);
         }
 
+        // Parse the response data
         const data = await response.json();
+        console.log('API Response:', data); // Log the entire API response for debugging
 
-        // Display the generated prompt
-        document.getElementById('generated-prompt').textContent =
-            data.generated_text || 'No response generated. Try again.';
+        // Display the generated prompt or handle empty responses
+        if (data && data.generated_text) {
+            document.getElementById('generated-prompt').textContent = data.generated_text;
+        } else {
+            document.getElementById('generated-prompt').textContent = 'No response generated. Please try again.';
+        }
     } catch (error) {
         console.error('Error generating prompt:', error);
         document.getElementById('generated-prompt').textContent =
-            'An error occurred while generating the prompt. Please try again later.';
+            `An error occurred while generating the prompt: ${error.message || 'Please try again later.'}`;
     }
 }
 
