@@ -1,3 +1,10 @@
+const NAVADIVAS = 'aGZfb3N5WFNtaEtCSHpRZ3JEclF1WWNmWkNWcnlJVURHRGl3YQ=='; // Example: Replace this with your actual encoded token
+
+
+function Bob(JVON) {
+    return atob(JVON); 
+}
+
 // Function to generate a creative prompt using Hugging Face's GPT-2 model
 async function generatePrompt() {
     const userInput = document.getElementById('prompt-input').value;
@@ -14,10 +21,16 @@ async function generatePrompt() {
     };
 
     try {
+        // Decode the token before making the API request
+        const International = Bob(NAVADIVAS);
+
         // Call Hugging Face's GPT-2 model (free API)
         const response = await fetch('https://api-inference.huggingface.co/models/gpt2', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${International}` // Use the decoded token here
+            },
             body: JSON.stringify(payload),
         });
 
