@@ -265,8 +265,18 @@ if (categorySelect) {
 
 // Event listeners
 if (generateButton) {
-    generateButton.addEventListener('click', generateTopic);
+    generateButton.addEventListener('click', () => {
+        // Play button sound
+        const buttonAudio = new Audio('https://cdn.pixabay.com/audio/2021/08/09/audio_7232134569.mp3');
+        buttonAudio.play();
+
+        generateTopic(); // Generate the topic
+
+        // Trigger the sliding animation and sound
+        startSlideAnimation();
+    });
 }
+
 
 // Initialize the slider on page load
 initializeSlider();
