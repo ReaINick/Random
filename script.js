@@ -56,14 +56,15 @@ const topics = {
         "Nymph", "Dryad", "Satyr", "Faun", "Leprechaun", "Gnome", "Pixie", "Sprite", "Imp", "Gremlin",
         "Golem", "Elemental", "Djinn", "Ifrit", "Banshee", "Wraith", "Lich", "Mummy", "Skeleton", "Gargoyle",
         "Doppelganger", "Shapeshifter", "Naga", "Kitsune", "Tanuki", "Yeti", "Sasquatch", "Loch Ness Monster", "Chupacabra", "Alien",
-        "Robot", "Cyborg", "Android", "Mutant", "Superhero", "Supervillain", "Time Traveler", "Psychic", "Telepath", "Telekinetic",
-        "Pyrokinetic", "Cryokinetic", "Electrokinetic", "Invisible Man", "Shrinking Man", "Giant Man", "Elastic Man", "Flying Man", "Speedster", "Mind Reader"
+        "Robot", "Cyborg", "Android", "Mutant", "Superhero", "Supervillain", "Time Traveler", "Psychic", "Telepath", "Telekinetic", "Pyrokinetic", "Cryokinetic", "Electrokinetic", "Invisible Man", "Shrinking Man", "Giant Man", "Elastic Man", "Flying Man", "Speedster", "Mind Reader"
+    ],
+    "???": [
+        "Diddy getting caught in 4k", "Obese Discord moderator living in his basement eating dorito's", "Curious George terrorizing the city", "Markiplier finds his hidden toe", "George Washington flying a plane into a non-specific tower", "Pirate Pirating videomedia of 'Wacthmen' The legendary DC Film inside a CD store", "Gozilla fighting King Kong in a supermarket", "Man breaking down a wall with a small hammer as people watch, the year is 1986, Berlin", "Man hopping a wall in hopes of a new life (jail)", "The Rock eating a rock", "Painter drawing a painting of a painter drawing a painting depicting a sheep", "leprechaun jumping out from the rainbow to scare you away from his gold", "A man named Floyd suddenly struggling to breathe and says a life changing quote", "Easter Bunny hiding eggs behind a tree as children and parents have fun in the background", "A beautiful summer sunset with the sun halfway below the horizon", "Skincrawlers standing outside a person's window, the person is terrified to look", 
+        
     ]
 };
 
-
-
-const currentTopic = document.getElementById('current-topic');
+const currentTopicElement = document.getElementById('current-topic');
 const generateButton = document.getElementById('generate-button');
 const timerInput = document.getElementById('timer-input');
 const timerDisplay = document.getElementById('timer-display');
@@ -78,7 +79,7 @@ let animationFrame;
 let sliderItems;
 
 // Validate if elements exist
-if (!currentTopic) console.error('current-topic element not found');
+if (!currentTopicElement) console.error('current-topic element not found');
 if (!generateButton) console.error('generate-button element not found');
 if (!timerInput) console.error('timer-input element not found');
 if (!timerDisplay) console.error('timer-display element not found');
@@ -139,7 +140,7 @@ function animateSlider() {
 }
 
 function generateTopic() {
-    if (!currentTopic) return;
+    if (!currentTopicElement) return;
 
     clearInterval(timerInterval);
 
@@ -150,7 +151,7 @@ function generateTopic() {
 
     if (!availableTopics || availableTopics.length === 0) {
         console.error('No topics available for the selected category');
-        currentTopic.textContent =
+        currentTopicElement.textContent =
             'No topics available. Please select another category.';
         return;
     }
@@ -165,32 +166,22 @@ function updateTimerDisplay(time) {
     if (!timerDisplay) return;
 
     timerDisplay.textContent = time;
-    if (time <= 10) {
-        timerDisplay.classList.add('animate__animated', 'animate__pulse');
-    } else {
-        timerDisplay.classList.remove('animate__animated', 'animate__pulse');
+    if (time <= 0) {
+        clearInterval(timerInterval);
+        // Optionally, trigger generateTopic() here if you want a new topic when the timer runs out.
+        Swal.fire({
+            title: 'Time is up!',
+            text: 'Generate a new topic?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, generate!',
+            cancelButtonText: 'No, thanks',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                generateTopic();
+            }
+        });
     }
-}
-
-function showTimeUpAnimation() {
-    Swal.fire({
-        title: "Time's Up!",
-        text: 'Ready for the next topic?',
-        icon: 'info',
-        showConfirmButton: true,
-        confirmButtonText: 'Generate New Topic',
-        showCancelButton: true,
-        cancelButtonText: 'Close',
-        customClass: {
-            popup: 'animate__animated animate__shakeX',
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-secondary',
-        },
-    }).then((result) => {
-        if (result.isConfirmed) {
-            generateTopic();
-        }
-    });
 }
 
 function addToHistory(topic) {
@@ -210,7 +201,7 @@ function addToHistory(topic) {
 function displayFinalTopic(topic) {
     Swal.fire({
         title: 'Your Topic Is:',
-        html: `<h2 class="animate__animated animate__bounceIn">${topic}</h2>`,
+        html: `${topic}`,
         icon: 'success',
         showConfirmButton: false,
         showCancelButton: true,
@@ -220,7 +211,7 @@ function displayFinalTopic(topic) {
             cancelButton: 'btn btn-danger',
         },
     }).then(() => {
-        if (currentTopic) currentTopic.textContent = topic;
+        if (currentTopicElement) currentTopicElement.textContent = topic;
         startTimer();
         addToHistory(topic);
     });
@@ -238,12 +229,23 @@ function startTimer() {
 
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            showTimeUpAnimation();
+            Swal.fire({
+                title: 'Time is up!',
+                text: 'Generate a new topic?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, generate!',
+                cancelButtonText: 'No, thanks',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    generateTopic();
+                }
+            });
         }
     }, 1000);
 }
 
-// Correct the eventlistener categoryselect
+// Event Listeners
 if (categorySelect) {
     categorySelect.addEventListener('change', (e) => {
         selectedCategory = e.target.value;
@@ -255,6 +257,7 @@ if (categorySelect) {
             food: 'food',
             nature: 'nature',
             fantasy: 'fantasy',
+            "???": "???"
         };
 
         selectedCategory = categoryMap[e.target.value] || 'all'; // Ensure correct mapping
@@ -263,7 +266,6 @@ if (categorySelect) {
     });
 }
 
-// Event listeners
 if (generateButton) {
     generateButton.addEventListener('click', () => {
         // Play button sound
@@ -273,7 +275,7 @@ if (generateButton) {
         generateTopic(); // Generate the topic
 
         // Trigger the sliding animation and sound
-        startSlideAnimation();
+        startSliderAnimation();
     });
 }
 
