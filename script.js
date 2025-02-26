@@ -55,12 +55,13 @@ const topics = {
         "Hydra", "Chimera", "Kraken", "Leviathan", "Basilisk", "Cockatrice", "Manticore", "Sphinx", "Harpy", "Siren",
         "Nymph", "Dryad", "Satyr", "Faun", "Leprechaun", "Gnome", "Pixie", "Sprite", "Imp", "Gremlin",
         "Golem", "Elemental", "Djinn", "Ifrit", "Banshee", "Wraith", "Lich", "Mummy", "Skeleton", "Gargoyle",
-        "Doppelganger", "Shapeshifter", "Naga", "Kitsune", "Tanuki", "Yeti", "Sasquatch", "Loch Ness Monster", "Chupacabra", "Alien",
-        "Robot", "Cyborg", "Android", "Mutant", "Superhero", "Supervillain", "Time Traveler", "Psychic", "Telepath", "Telekinetic", "Pyrokinetic", "Cryokinetic", "Electrokinetic", "Invisible Man", "Shrinking Man", "Giant Man", "Elastic Man", "Flying Man", "Speedster", "Mind Reader"
+        "Doppelganger", "Shapeshifter", "Naga", "Kitsune", "Tanuki", "Yeti", "Sasquatch", "Loch Ness Monster", "Chupacabra", "Alien",... "Robot", "Cyborg", "Android", "Mutant", "Superhero", "Supervillain", "Time Traveler", "Psychic", "Telepath", "Telekinetic", "Pyrokinetic", "Cryokinetic", "Electrokinetic", "Invisible Man", "Shrinking Man", "Giant Man", "Elastic Man", "Flying Man", "Speedster", "Mind Reader"
     ],
     "???": [
         "Diddy getting caught in 4k", "Obese Discord moderator living in his basement eating dorito's", "Curious George terrorizing the city", "Markiplier finds his hidden toe", "George Washington flying a plane into a non-specific tower", "Pirate Pirating videomedia of 'Wacthmen' The legendary DC Film inside a CD store", "Gozilla fighting King Kong in a supermarket", "Man breaking down a wall with a small hammer as people watch, the year is 1986, Berlin", "Man hopping a wall in hopes of a new life (jail)", "The Rock eating a rock", "Painter drawing a painting of a painter drawing a painting depicting a sheep", "leprechaun jumping out from the rainbow to scare you away from his gold", "A man named Floyd suddenly struggling to breathe and says a life changing quote", "Easter Bunny hiding eggs behind a tree as children and parents have fun in the background", "A beautiful summer sunset with the sun halfway below the horizon", "Skincrawlers standing outside a person's window, the person is terrified to look", 
-        
+    ],
+    visualprompts: [
+        "https://easydrawingguides.com/wp-content/uploads/2017/02/how-to-draw-bob-the-minion-featured-image-1200.png", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c78bffa7-9eeb-4c61-8b2d-b41cbf45c57f/dfe8mm6-e092b450-6cea-4f97-9148-07c1e4d743e4.png/v1/fill/w_1280,h_720,q_80,strp/cursed_lightning_mcqueen_and_matter_by_silastrain_dfe8mm6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvYzc4YmZmYTctOWVlYi00YzYxLThiMmQtYjQxY2JmNDVjNTdmXC9kZmU4bW02LWUwOTJiNDUwLTZjZWEtNGY5Ny05MTQ4LTA3YzFlNGQ3NDNlNC5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.drdKz_oC1P4QrrKdyql6iJ2hBu0xKJDcik6KA4FndH0",
     ]
 };
 
@@ -97,7 +98,16 @@ function initializeSlider() {
     topicsToUse.forEach((topic) => {
         const sliderItem = document.createElement('span'); // Use span instead of div
         sliderItem.classList.add('slider-item'); // Add class for styling and animation
-        sliderItem.textContent = topic;
+        // If the topic is from the visualprompts category (or in 'all' and matches an image URL), display it as an image.
+        if ((selectedCategory === 'visualprompts') || (selectedCategory === 'all' && /^https?:\/\/.+\.(png|jpg|jpeg|gif)$/i.test(topic))) {
+            const img = document.createElement('img');
+            img.src = topic;
+            img.alt = "Visual Prompt";
+            img.style.maxWidth = "150px";
+            sliderItem.appendChild(img);
+        } else {
+            sliderItem.textContent = topic;
+        }
         topicSlider.appendChild(sliderItem);
     });
 
@@ -199,9 +209,15 @@ function addToHistory(topic) {
 }
 
 function displayFinalTopic(topic) {
+    let content;
+    if (selectedCategory === 'visualprompts' || (selectedCategory === 'all' && /^https?:\/\/.+\.(png|jpg|jpeg|gif)$/i.test(topic))) {
+        content = `<img src="${topic}" alt="Visual Prompt" style="max-width:100%;">`;
+    } else {
+        content = topic;
+    }
     Swal.fire({
         title: 'Your Topic Is:',
-        html: `${topic}`,
+        html: `${content}`,
         icon: 'success',
         showConfirmButton: false,
         showCancelButton: true,
@@ -211,7 +227,13 @@ function displayFinalTopic(topic) {
             cancelButton: 'btn btn-danger',
         },
     }).then(() => {
-        if (currentTopicElement) currentTopicElement.textContent = topic;
+        if (currentTopicElement) {
+            if (selectedCategory === 'visualprompts' || (selectedCategory === 'all' && /^https?:\/\/.+\.(png|jpg|jpeg|gif)$/i.test(topic))) {
+                currentTopicElement.innerHTML = `<img src="${topic}" alt="Visual Prompt" style="max-width:100%;">`;
+            } else {
+                currentTopicElement.textContent = topic;
+            }
+        }
         startTimer();
         addToHistory(topic);
     });
@@ -257,7 +279,8 @@ if (categorySelect) {
             food: 'food',
             nature: 'nature',
             fantasy: 'fantasy',
-            "???": "???"
+            "???": "???",
+            visualprompts: "visualprompts"
         };
 
         selectedCategory = categoryMap[e.target.value] || 'all'; // Ensure correct mapping
@@ -278,7 +301,3 @@ if (generateButton) {
         startSliderAnimation();
     });
 }
-
-
-// Initialize the slider on page load
-initializeSlider();
