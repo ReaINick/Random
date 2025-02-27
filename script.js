@@ -1,3 +1,5 @@
+// script.js - INTEGRATED WITH BLIND-KIND MODE
+
 const topics = {
     animals: [
         "Dog", "Cat", "Horse", "Cow", "Pig", "Sheep", "Goat", "Chicken", "Duck", "Goose",
@@ -54,11 +56,10 @@ const topics = {
         "Werewolf", "Zombie", "Ghost", "Demon", "Angel", "God", "Goddess", "Titan", "Cyclops", "Minotaur",
         "Hydra", "Chimera", "Kraken", "Leviathan", "Basilisk", "Cockatrice", "Manticore", "Sphinx", "Harpy", "Siren",
         "Nymph", "Dryad", "Satyr", "Faun", "Leprechaun", "Gnome", "Pixie", "Sprite", "Imp", "Gremlin",
-        "Golem", "Elemental", "Djinn", "Ifrit", "Banshee", "Wraith", "Lich", "Mummy", "Skeleton", "Gargoyle",
-        "Doppelganger", "Shapeshifter", "Naga", "Kitsune", "Tanuki", "Yeti", "Sasquatch", "Loch Ness Monster", "Chupacabra", "Alien",... "Robot", "Cyborg", "Android", "Mutant", "Superhero", "Supervillain", "Time Traveler", "Psychic", "Telepath", "Telekinetic", "Pyrokinetic", "Cryokinetic", "Electrokinetic", "Invisible Man", "Shrinking Man", "Giant Man", "Elastic Man", "Flying Man", "Speedster", "Mind Reader"
+        "Golem", "Elemental", "Djinn", "Ifrit", "Banshee", "Wraith", "Lich", "Mummy", "Skeleton", "Gargoyle",... "Doppelganger", "Shapeshifter", "Naga", "Kitsune", "Tanuki", "Yeti", "Sasquatch", "Loch Ness Monster", "Chupacabra", "Alien",... "Robot", "Cyborg", "Android", "Mutant", "Superhero", "Supervillain", "Time Traveler", "Psychic", "Telepath", "Telekinetic", "Pyrokinetic", "Cryokinetic", "Electrokinetic", "Invisible Man", "Shrinking Man", "Giant Man", "Elastic Man", "Flying Man", "Speedster", "Mind Reader"
     ],
     "???": [
-        "Diddy getting caught in 4k", "Obese Discord moderator living in his basement eating dorito's", "Curious George terrorizing the city", "Markiplier finds his hidden toe", "George Washington flying a plane into a non-specific tower", "Pirate Pirating videomedia of 'Wacthmen' The legendary DC Film inside a CD store", "Gozilla fighting King Kong in a supermarket", "Man breaking down a wall with a small hammer as people watch, the year is 1986, Berlin", "Man hopping a wall in hopes of a new life (jail)", "The Rock eating a rock", "Painter drawing a painting of a painter drawing a painting depicting a sheep", "leprechaun jumping out from the rainbow to scare you away from his gold", "A man named Floyd suddenly struggling to breathe and says a life changing quote", "Easter Bunny hiding eggs behind a tree as children and parents have fun in the background", "A beautiful summer sunset with the sun halfway below the horizon", "Skincrawlers standing outside a person's window, the person is terrified to look", 
+        "Diddy getting caught in 4k", "Obese Discord moderator living in his basement eating dorito's", "Curious George terrorizing the city", "Markiplier finds his hidden toe", "George Washington flying a plane into a non-specific tower", "Pirate Pirating videomedia of 'Wacthmen' The legendary DC Film inside a CD store", "Gozilla fighting King Kong in a supermarket", "Man breaking down a wall with a small hammer as people watch, the year is 1986, Berlin", "Man hopping a wall in hopes of a new life (jail)", "The Rock eating a rock", "Painter drawing a painting of a painter drawing a painting depicting a sheep", "leprechaun jumping out from the rainbow to scare you away from his gold", "A man named Floyd suddenly struggling to breathe and says a life changing quote", "Easter Bunny hiding eggs behind a tree as children and parents have fun in the background", "A beautiful summer sunset with the sun halfway below the horizon", "Skincrawlers standing outside a person's window, the person is terrified to look",
         "Spinsaurus versus a Trex", "Trex loose on the streets of New York", "Lightning Mcqueen has had enough", "Lighting Mcqueen and Mater Catch The Ghost Light (MUST DRAW THE GHOST LIGHT CORRECTLY)",
     ],
     visualprompts: [
@@ -75,12 +76,48 @@ const timerDisplay = document.getElementById('timer-display');
 const categorySelect = document.getElementById('category-select');
 const topicHistory = document.getElementById('topic-history');
 const topicSlider = document.getElementById('topic-slider');
+const gameModeSelect = document.getElementById('gameMode'); //Added this
 
 let timerInterval;
 let currentTopicIndex = 0;
 let selectedCategory = 'all';
 let animationFrame;
 let sliderItems;
+let currentGameMode = 'normal';
+
+//BlindKind Variables
+let isBlindKindMode = false;
+let currentRule = null;
+let isRuleRevealed = false;
+
+// Blind-Kind Rules
+const blindKindRules = [
+    {
+        name: "Ugly Duckling",
+        description: "The ugliest drawing wins! Embrace imperfection and create the most unappealing artwork possible.",
+        criteria: "Judges will look for intentionally poor aesthetics, awkward compositions, and unconventional color choices."
+    },
+    {
+        name: "Minimalist Masterpiece",
+        description: "Less is more. Create a drawing using the fewest possible lines or shapes while still conveying the prompt.",
+        criteria: "Judges will evaluate based on simplicity, clarity of concept, and effective use of negative space."
+    },
+    {
+        name: "Sensory Overload",
+        description: "Overwhelm the senses! Your drawing should be as busy, colorful, and complex as possible.",
+        criteria: "Judges will look for intricate details, a wide color palette, and multiple layers of visual information."
+    },
+    {
+        name: "Emotion",
+        description: "Focus on evoking a strong emotion through your art, regardless of technical skill or realism.",
+        criteria: "Judges will assess the emotional impact of the piece, use of color and composition to convey feeling."
+    },
+    {
+        name: "Unpredictable",
+        description: "Reimagine the prompt as if it existed in a completely different reality or dimension.",
+        criteria: "Judges will evaluate creativity in world-building, unique interpretations, and imaginative details."
+    }
+];
 
 // Validate if elements exist
 if (!currentTopicElement) console.error('current-topic element not found');
@@ -90,6 +127,7 @@ if (!timerDisplay) console.error('timer-display element not found');
 if (!categorySelect) console.error('category-select element not found');
 if (!topicHistory) console.error('topic-history element not found');
 if (!topicSlider) console.error('topic-slider element not found');
+if (!gameModeSelect) console.error('gameMode element not found');
 
 function initializeSlider() {
     if (!topicSlider) return;
@@ -179,22 +217,6 @@ function updateTimerDisplay(time) {
     if (!timerDisplay) return;
 
     timerDisplay.textContent = time;
-    if (time <= 0) {
-        clearInterval(timerInterval);
-        // Optionally, trigger generateTopic() here if you want a new topic when the timer runs out.
-        Swal.fire({
-            title: 'Time is up!',
-            text: 'Generate a new topic?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, generate!',
-            cancelButtonText: 'No, thanks',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                generateTopic();
-            }
-        });
-    }
 }
 
 function addToHistory(topic) {
@@ -269,40 +291,159 @@ function startTimer() {
                 }
             });
         }
+
+        if (timeLeft <= 0 && isBlindKindMode) {
+            clearInterval(timerInterval);
+            transitionToScramblingPhase();
+        }
     }, 1000);
+}
+
+function transitionToScramblingPhase() {
+    const visualImages = document.querySelectorAll('.slider-item'); // Select the visual images
+    visualImages.forEach(img => {
+        img.style.display = 'none'; // Hide images
+    });
+    const controlsSection = document.getElementById('controls');
+    const revealRulesButton = document.createElement('button');
+    revealRulesButton.textContent = 'Reveal Blind-Kind Rules!';
+    revealRulesButton.id = 'revealRulesButton';
+    revealRulesButton.addEventListener('click', revealBlindKindRule);
+    controlsSection.appendChild(revealRulesButton);
+}
+
+function revealBlindKindRule() {
+    isRuleRevealed = true;
+    displayRule(currentRule);
+    addToHistory(currentRule.name);
+}
+
+function displayRule(rule) {
+    Swal.fire({
+        title: 'Hidden Rule Revealed!',
+        html: `<h3>${rule.name}</h3><p>${rule.description}</p><p><strong>Judging Criteria:</strong> ${rule.criteria}</p>`,
+        icon: 'info',
+        confirmButtonText: 'Continue Drawing',
+        customClass: {
+            popup: 'animate__animated animate__fadeInDown'
+        }
+    }).then(() => {
+        const currentTopic = document.getElementById('current-topic');
+        const generateButton = document.getElementById('generate-button');
+        if (currentTopic) currentTopic.textContent = `Active Rule: ${rule.name}`;
+        if (generateButton) {
+            generateButton.textContent = 'RULE REVEALED';
+            generateButton.disabled = true;
+        }
+    });
+}
+
+function enableDrawingScrambling() {
+    // Your code to allow users to scramble the drawings
+    // This might involve enabling drag-and-drop, shuffle buttons, etc.
+    console.log("Enable Drawing Scrambling function called, place your functions here.");
+}
+
+// Add to history
+function addToHistory(ruleName) {
+    const topicHistory = document.getElementById('topic-history');
+    const listItem = document.createElement('li');
+    listItem.textContent = `Blind-Kind: ${ruleName}`;
+    listItem.classList.add('animate__animated', 'animate__fadeInDown');
+    topicHistory.prepend(listItem);
+
+    // Keep only the latest 5 items
+    while (topicHistory.children.length > 5) {
+        topicHistory.removeChild(topicHistory.lastChild);
+    }
+}
+
+function getRandomRule() {
+    const index = Math.floor(Math.random() * blindKindRules.length);
+    return blindKindRules[index];
+}
+
+function addBlindKindOption() {
+    const categorySelect = document.getElementById('category-select');
+    if (categorySelect && !categorySelect.querySelector('option[value="blind-kind"]')) {
+        const option = document.createElement('option');
+        option.value = 'blind-kind';
+        option.textContent = 'Blind-Kind Mode';
+        categorySelect.appendChild(option);
+    }
 }
 
 // Event Listeners
 if (categorySelect) {
     categorySelect.addEventListener('change', (e) => {
         selectedCategory = e.target.value;
-
-        const categoryMap = {
-            all: 'all',
-            animals: 'animals',
-            objects: 'objects',
-            food: 'food',
-            nature: 'nature',
-            fantasy: 'fantasy',
-            "???": "???",
-            visualprompts: "visualprompts"
-        };
-
-        selectedCategory = categoryMap[e.target.value] || 'all'; // Ensure correct mapping
+        console.log(`Category changed to: ${selectedCategory}`);
         initializeSlider();
-        generateTopic();
+        isBlindKindMode = e.target.value === 'blind-kind';
+
+        // Set to visualprompts in blind-kind mode
+        if(isBlindKindMode) {
+            categorySelect.value = 'visualprompts';
+            selectedCategory = 'visualprompts';
+        }
+
     });
 }
+
+if (gameModeSelect) {
+    gameModeSelect.addEventListener('change', () => {
+      currentGameMode = gameModeSelect.value;
+      console.log(`Game mode changed to: ${currentGameMode}`); // Debugging
+
+      // You might need to reset or re-initialize some parts of your game here
+      isBlindKindMode = currentGameMode === "blindKind" ? true : false;
+    });
+  }
 
 if (generateButton) {
     generateButton.addEventListener('click', () => {
-        // Play button sound
-        const buttonAudio = new Audio('https://cdn.pixabay.com/audio/2021/08/09/audio_7232134569.mp3');
-        buttonAudio.play();
-
-        generateTopic(); // Generate the topic
-
-        // Trigger the sliding animation and sound
-        startSliderAnimation();
+        if(isBlindKindMode) {
+            startBlindKindRound();
+        }
+        else {
+        generateTopic();
+        }
     });
 }
+
+// Function to switch to Blind Kind, then call the startTimer function
+function startBlindKindRound() {
+    // Set Category To visual
+    selectedCategory = 'visualprompts';
+    categorySelect.value = 'visualprompts';
+
+    //Set Timer to 3 minutes
+    timerInput.value = 180;
+
+     //Select Topic
+     generateTopic();
+
+     //Call function
+        currentRule = getRandomRule();
+        isRuleRevealed = false;
+
+    Swal.fire({
+        title: 'Blind-Kind Round Started!',
+        text: 'The hidden rule has been set. Start drawing based on the regular prompt. The rule will be revealed when the timer ends!',
+        icon: 'info',
+        confirmButtonText: 'Begin Drawing'
+    }).then(() => {
+        const currentTopic = document.getElementById('current-topic');
+        const generateButton = document.getElementById('generate-button');
+        if (currentTopic) currentTopic.textContent = 'Hidden Rule Set - Draw Normally';
+        if (generateButton) {
+            generateButton.textContent = 'REVEAL RULE (for testing)';
+            generateButton.onclick = revealBlindKindRule;
+        }
+        startTimer(); //This function is assumed to be in script.js and handles timer start
+    });
+}
+
+// Initialization
+initializeSlider();
+addBlindKindOption();
