@@ -29,15 +29,6 @@ const blindKindRules = [
     }
 ];
 
-// DOM Elements
-const categorySelect = document.getElementById('category-select');
-const generateButton = document.getElementById('generate-button');
-const currentTopic = document.getElementById('current-topic');
-const timerInput = document.getElementById('timer-input');
-const timerDisplay = document.getElementById('timer-display');
-const topicHistory = document.getElementById('topic-history');
-const topicSlider = document.getElementById('topic-slider');
-
 // Global variables
 let isBlindKindMode = false;
 let currentRule = null;
@@ -46,17 +37,26 @@ let isRuleRevealed = false;
 
 // Add Blind-Kind option to category select
 function addBlindKindOption() {
-    const option = document.createElement('option');
-    option.value = 'blind-kind';
-    option.textContent = 'Blind-Kind Mode';
-    categorySelect.appendChild(option);
+    const categorySelect = document.getElementById('category-select');
+    if (categorySelect && !categorySelect.querySelector('option[value="blind-kind"]')) {
+        const option = document.createElement('option');
+        option.value = 'blind-kind';
+        option.textContent = 'Blind-Kind Mode';
+        categorySelect.appendChild(option);
+    }
 }
 
 // Initialize Blind-Kind Mode
 function initBlindKindMode() {
     addBlindKindOption();
-    categorySelect.addEventListener('change', handleCategoryChange);
-    generateButton.addEventListener('click', handleGenerateClick);
+    const categorySelect = document.getElementById('category-select');
+    const generateButton = document.getElementById('generate-button');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', handleCategoryChange);
+    }
+    if (generateButton) {
+        generateButton.addEventListener('click', handleGenerateClick);
+    }
 }
 
 // Handle category change
@@ -67,21 +67,20 @@ function handleCategoryChange(event) {
 
 // Update UI based on mode
 function updateUI() {
+    const generateButton = document.getElementById('generate-button');
+    const currentTopic = document.getElementById('current-topic');
+    const topicSlider = document.getElementById('topic-slider');
+
     if (isBlindKindMode) {
-        generateButton.textContent = 'START BLIND-KIND';
-        currentTopic.textContent = 'Blind-Kind Mode Active';
-        clearSlider();
+        if (generateButton) generateButton.textContent = 'START BLIND-KIND';
+        if (currentTopic) currentTopic.textContent = 'Blind-Kind Mode Active';
+        if (topicSlider) topicSlider.innerHTML = '';
     } else {
-        generateButton.textContent = 'SLIDE';
-        currentTopic.textContent = 'Results appear here';
+        if (generateButton) generateButton.textContent = 'SLIDE';
+        if (currentTopic) currentTopic.textContent = 'Results appear here';
         // Restore normal slider functionality
     }
     isRuleRevealed = false;
-}
-
-// Clear slider for Blind-Kind Mode
-function clearSlider() {
-    topicSlider.innerHTML = '';
 }
 
 // Handle generate button click
@@ -107,8 +106,13 @@ function startBlindKindRound() {
         icon: 'info',
         confirmButtonText: 'Begin Drawing'
     }).then(() => {
-        currentTopic.textContent = 'Hidden Rule Set - Draw Normally';
-        generateButton.textContent = 'REVEAL RULE (for testing)';
+        const currentTopic = document.getElementById('current-topic');
+        const generateButton = document.getElementById('generate-button');
+        if (currentTopic) currentTopic.textContent = 'Hidden Rule Set - Draw Normally';
+        if (generateButton) {
+            generateButton.textContent = 'REVEAL RULE (for testing)';
+            generateButton.onclick = revealBlindKindRule;
+        }
         startTimer();
     });
 }
@@ -137,14 +141,20 @@ function displayRule(rule) {
             popup: 'animate__animated animate__fadeInDown'
         }
     }).then(() => {
-        currentTopic.textContent = `Active Rule: ${rule.name}`;
-        generateButton.textContent = 'RULE REVEALED';
-        generateButton.disabled = true;
+        const currentTopic = document.getElementById('current-topic');
+        const generateButton = document.getElementById('generate-button');
+        if (currentTopic) currentTopic.textContent = `Active Rule: ${rule.name}`;
+        if (generateButton) {
+            generateButton.textContent = 'RULE REVEALED';
+            generateButton.disabled = true;
+        }
     });
 }
 
 // Start timer
 function startTimer() {
+    const timerInput = document.getElementById('timer-input');
+    const timerDisplay = document.getElementById('timer-display');
     clearInterval(timerInterval);
     let timeLeft = parseInt(timerInput.value, 10);
     updateTimerDisplay(timeLeft);
@@ -161,7 +171,8 @@ function startTimer() {
 
 // Update timer display
 function updateTimerDisplay(time) {
-    timerDisplay.textContent = time;
+    const timerDisplay = document.getElementById('timer-display');
+    if (timerDisplay) timerDisplay.textContent = time;
 }
 
 // Timer end alert
@@ -208,6 +219,7 @@ function extendTimer() {
 
 // Add to history
 function addToHistory(ruleName) {
+    const topicHistory = document.getElementById('topic-history');
     const listItem = document.createElement('li');
     listItem.textContent = `Blind-Kind: ${ruleName}`;
     listItem.classList.add('animate__animated', 'animate__fadeInDown');
@@ -222,11 +234,9 @@ function addToHistory(ruleName) {
 // Initialize Blind-Kind Mode
 document.addEventListener('DOMContentLoaded', initBlindKindMode);
 
-// Export functions for potential use in other scripts
-export {
-    initBlindKindMode,
-    handleCategoryChange,
-    handleGenerateClick,
-    revealBlindKindRule,
-    startTimer
-};
+// Make functions globally available
+window.startBlindKindMode = initBlindKindMode;
+window.handleCategoryChange = handleCategoryChange;
+window.handleGenerateClick = handleGenerateClick;
+window.revealBlindKindRule = revealBlindKindRule;
+window.startTimer = startTimer;
