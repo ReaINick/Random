@@ -209,12 +209,13 @@ function addToHistory(topic) {
 }
 
 function displayFinalTopic(topic) {
-    let content;
-    if (selectedCategory === 'visualprompts' || (selectedCategory === 'all' && /^https?:\/\/.+\.(png|jpg|jpeg|gif)$/i.test(topic))) {
-        content = `<img src="${topic}" alt="Visual Prompt" style="max-width:100%;">`;
-    } else {
-        content = topic;
-    }
+let content;
+if (selectedCategory === 'visualprompts' || (selectedCategory === 'all' && /^https?:\/\/.+\.(png|jpg|jpeg|gif)$/i.test(topic))) {
+    content = `<img src="${topic}" alt="Visual Prompt" style="max-width:100%; max-height:300px; object-fit:contain;">`;
+} else {
+    content = topic;
+}
+
     Swal.fire({
         title: 'Your Topic Is:',
         html: `${content}`,
@@ -227,13 +228,14 @@ function displayFinalTopic(topic) {
             cancelButton: 'btn btn-danger',
         },
     }).then(() => {
-        if (currentTopicElement) {
-            if (selectedCategory === 'visualprompts' || (selectedCategory === 'all' && /^https?:\/\/.+\.(png|jpg|jpeg|gif)$/i.test(topic))) {
-                currentTopicElement.innerHTML = `<img src="${topic}" alt="Visual Prompt" style="max-width:100%;">`;
-            } else {
-                currentTopicElement.textContent = topic;
-            }
-        }
+if (currentTopicElement) {
+    if (selectedCategory === 'visualprompts' || (selectedCategory === 'all' && /^https?:\/\/.+\.(png|jpg|jpeg|gif)$/i.test(topic))) {
+        currentTopicElement.innerHTML = `<img src="${topic}" alt="Visual Prompt" style="max-width:100%; max-height:300px; object-fit:contain;">`;
+    } else {
+        currentTopicElement.textContent = topic;
+    }
+}
+
         startTimer();
         addToHistory(topic);
     });
