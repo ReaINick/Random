@@ -1,3 +1,8 @@
+// blind-kind-mode.js
+
+// Declare timerInterval only once at the top of the script using var
+var timerInterval = null;
+
 // Blind-Kind Rules
 const blindKindRules = [
     {
@@ -30,7 +35,6 @@ const blindKindRules = [
 // Global variables
 let isBlindKindMode = false;
 let currentRule = null;
-let timerInterval = null;
 let isRuleRevealed = false;
 
 // Add Blind-Kind option to category select
@@ -157,7 +161,7 @@ function startTimer() {
     let timeLeft = parseInt(timerInput.value, 10);
     updateTimerDisplay(timeLeft);
 
-    timerInterval = setInterval(() => {
+    timerInterval = setInterval(() => { // Use timerInterval here without redeclaring
         timeLeft--;
         updateTimerDisplay(timeLeft);
         if (timeLeft <= 0) {
