@@ -7,25 +7,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Updated Color Scheme */
         body {
-            background-color: #1B1F3B; /* Space Cadet */
-            color: #E1BBC9; /* Fairy Tale */
+            background-color: #1B1F3B;
+            color: #E1BBC9;
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
         }
         header h1 {
             font-family: 'Courier New', monospace;
             font-size: 3em;
-            text-shadow: 0 0 15px #C874D9; /* French Mauve */
-            color: #B14AED; /* Electric Purple */
+            text-shadow: 0 0 15px #C874D9;
+            color: #B14AED;
         }
         .slider-container {
             width: 100%;
             overflow: hidden;
             margin: 30px 0;
             position: relative;
-            height: 80px; /* Adjusted height for better visibility */
+            height: 80px;
         }
         .slider {
             display: flex;
@@ -35,11 +34,11 @@
             flex: 0 0 auto;
             text-align: center;
             font-size: 2em;
-            color: #E1BBC9; /* Fairy Tale */
+            color: #E1BBC9;
         }
         button {
-            background-color: #454ADE; /* Iris */
-            color: #E1BBC9; /* Fairy Tale */
+            background-color: #454ADE;
+            color: #E1BBC9;
             border: none;
             padding: 15px 30px;
             font-size: 1.2em;
@@ -49,20 +48,20 @@
             transition: all 0.3s ease-in-out;
         }
         button:hover {
-            background-color: #B14AED; /* Electric Purple */
+            background-color: #B14AED;
             box-shadow: 0px 4px 15px rgba(177, 74, 237, 0.75);
         }
         input[type="number"], select {
-            background-color: #454ADE; /* Iris */
-            color: #E1BBC9; /* Fairy Tale */
+            background-color: #454ADE;
+            color: #E1BBC9;
             border-radius: 5px;
             border-color: transparent;
         }
         input[type="number"]:focus, select:focus {
-            outline-color: #C874D9; /* French Mauve */
+            outline-color: #C874D9;
         }
         select option {
-            background-color: #1B1F3B; /* Space Cadet */
+            background-color: #1B1F3B;
         }
         #topic-history li {
             font-size: 1.2rem;
@@ -73,13 +72,20 @@
             max-height: 300px;
             object-fit: contain;
         }
-
         .slider-item img {
             max-width: 150px;
             max-height: 150px;
             object-fit: contain;
         }
-/* New styles for settings modal */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -91,7 +97,6 @@
             overflow: auto;
             background-color: rgba(0,0,0,0.4);
         }
-
         .modal-content {
             background-color: #1B1F3B;
             margin: 15% auto;
@@ -101,34 +106,20 @@
             max-width: 500px;
             border-radius: 10px;
         }
-
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-
         .close:hover,
         .close:focus {
             color: #E1BBC9;
             text-decoration: none;
             cursor: pointer;
         }
-
         #blind-kind-button {
             margin-top: 20px;
-        }
-
-        /* Confetti Canvas Styles */
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Allows clicking through the canvas */
-            z-index: 1000; /* Ensure it's on top of other elements */
         }
     </style>
 </head>
@@ -139,35 +130,27 @@
         </h1>
     </header>
     <main align="center" style="max-width: 800px; margin: 0 auto; padding: 20px;">
-        <!-- Topic Display Section -->
         <section id="topic-display" style="margin-bottom: 30px;">
             <h2 id="current-topic" style="font-size: 2.5em;" class="animate__animated animate__pulse">
                 Results appear here
             </h2>
             <div id="topic-image-container" style="max-width: 100%; max-height: 300px; overflow: hidden;">
-                <!-- Images will be dynamically inserted here -->
             </div>
         </section>
-        <!-- Slider Section -->
         <div class="slider-container">
             <div class="slider" id="topic-slider">
-                <!-- Slider items will be dynamically added here -->
             </div>
         </div>
-        <!-- Controls Section -->
         <section id="controls" style="margin-bottom: 30px;">
             <button id="generate-button" class="animate__animated animate__bounceIn">
                 SLIDE
-                <!-- Audio element for sliding sound -->
             </button>
         </section>
-        <!-- Timer Section -->
         <section id="timer-section" style="margin-bottom: 30px;">
             <label for="timer-input" style="font-size: 1.2em; margin-right: 10px;">Set Timer (seconds):</label>
             <input type="number" id="timer-input" min="10" max="300" value="60">
             <span id="timer-display" style="font-size: 1.5em; margin-left: 10px;">60</span>
         </section>
-        <!-- Category Selector -->
         <section id="category-section" style="margin-bottom: 30px;">
             <label for="category-select" style="font-size: 1.2em; margin-right: 10px;">Select Category:</label>
             <select id="category-select">
@@ -181,26 +164,20 @@
                 <option value="visualprompts">Visual Prompts</option>
             </select>
         </section>
-        <!-- History Section -->
         <section id="history-section" style="margin-top: 30px;">
             <h3>Previous Topics</h3>
             <ul id="topic-history">
-                <!-- Topic history will be dynamically added here -->
             </ul>
         </section>
     </main>
-<!-- Footer Section -->
     <footer align="center" style="margin-top: 50px; font-size: 0.8em;">
         <div style="display: flex; justify-content: center; align-items: center;">
             <p style="margin-right: 20px;">&copy; 2025 Wheel of Topics. All rights reserved.</p>
-            <span id="settings-cog" style="cursor: pointer;">⚙️</span> <!-- Settings Cog -->
+            <span id="settings-cog" style="cursor: pointer;">⚙️</span>
         </div>
-
         <h4>About</h4>
         <p>The Wheel Of Topics is a tool designed to provide creative inspiration. Select a category or choose 'All' for a completely random topic. Use the timer to challenge yourself, and view your recent prompts in the history section.</p>
     </footer>
-
-    <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -208,11 +185,7 @@
             <button id="blind-kind-button">Start Blind-Kind Mode</button>
         </div>
     </div>
-
-    <!-- Confetti Effect Placeholder -->
     <canvas id="confetti-canvas"></canvas>
-
-    <!-- JavaScript -->
     <script src="./prompt-generator.js"></script>
     <script src="./script.js"></script>
     <script src="./blind-kind-mode.js"></script>
@@ -238,9 +211,12 @@
         }
 
         blindKindButton.onclick = function() {
-            // This function will be defined in blind-kind-mode.js
-            startBlindKindMode();
-            modal.style.display = "none";
+            if (typeof startBlindKindMode === 'function') {
+                startBlindKindMode();
+                modal.style.display = "none";
+            } else {
+                console.error('startBlindKindMode function not found');
+            }
         }
     </script>
 </body>
