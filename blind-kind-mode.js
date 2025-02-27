@@ -1,5 +1,3 @@
-// blind-kind-mode.js
-
 // Blind-Kind Rules
 const blindKindRules = [
     {
