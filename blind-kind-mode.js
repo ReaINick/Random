@@ -1,7 +1,4 @@
-// Only declare timerInterval if it's not already declared
-if (typeof timerInterval === 'undefined') {
-    timerInterval = null;
-}
+
 
 // Blind-Kind Rules
 const blindKindRules = [
