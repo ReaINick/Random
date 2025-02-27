@@ -2,7 +2,7 @@
 
 // Only declare timerInterval if it's not already declared
 if (typeof timerInterval === 'undefined') {
-    var timerInterval = null;
+ timerInterval = null;
 }
 
 // Blind-Kind Rules
