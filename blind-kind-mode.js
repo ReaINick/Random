@@ -1,8 +1,6 @@
-// blind-kind-mode.js
-
 // Only declare timerInterval if it's not already declared
 if (typeof timerInterval === 'undefined') {
- timerInterval = null;
+    timerInterval = null;
 }
 
 // Blind-Kind Rules
@@ -55,9 +53,11 @@ function initBlindKindMode() {
     addBlindKindOption();
     const categorySelect = document.getElementById('category-select');
     const generateButton = document.getElementById('generate-button');
+
     if (categorySelect) {
         categorySelect.addEventListener('change', handleCategoryChange);
     }
+
     if (generateButton) {
         generateButton.addEventListener('click', handleGenerateClick);
     }
@@ -68,7 +68,7 @@ function handleCategoryChange(event) {
     isBlindKindMode = event.target.value === 'blind-kind';
     updateUI();
 
-    // Set the category to 'visualprompts' when BlindKind mode is activated
+    // Set the category to 'visualprompts' when Blind-Kind mode is activated
     if (isBlindKindMode) {
         const categorySelect = document.getElementById('category-select');
         if (categorySelect) {
@@ -92,6 +92,7 @@ function updateUI() {
         if (currentTopic) currentTopic.textContent = 'Results appear here';
         // Restore normal slider functionality
     }
+
     isRuleRevealed = false;
 }
 
@@ -113,6 +114,7 @@ function handleGenerateClick() {
 function startBlindKindRound() {
     currentRule = getRandomRule();
     isRuleRevealed = false;
+
     Swal.fire({
         title: 'Blind-Kind Round Started!',
         text: 'The hidden rule has been set. Start drawing based on the visual image. The rule will be revealed when the timer ends!',
@@ -121,12 +123,15 @@ function startBlindKindRound() {
     }).then(() => {
         const currentTopic = document.getElementById('current-topic');
         const generateButton = document.getElementById('generate-button');
+
         if (currentTopic) currentTopic.textContent = 'Hidden Rule Set - Draw Based on the Visual Image';
         if (generateButton) {
             generateButton.textContent = 'REVEAL RULE (for testing)';
             generateButton.onclick = revealBlindKindRule;
         }
-        startTimer(); // This function is assumed to be in script.js and handles timer start
+
+        // Start the timer with 180 seconds (3 minutes)
+        startTimer(180);
     });
 }
 
@@ -156,6 +161,7 @@ function displayRule(rule) {
     }).then(() => {
         const currentTopic = document.getElementById('current-topic');
         const generateButton = document.getElementById('generate-button');
+
         if (currentTopic) currentTopic.textContent = `Active Rule: ${rule.name}`;
         if (generateButton) {
             generateButton.textContent = 'RULE REVEALED';
@@ -176,6 +182,52 @@ function addToHistory(ruleName) {
     while (topicHistory.children.length > 5) {
         topicHistory.removeChild(topicHistory.lastChild);
     }
+}
+
+// Start Timer Functionality
+function startTimer(duration) {
+    let timeLeft = duration;
+    const timerDisplay = document.getElementById('timer-display');
+
+    if (!timerDisplay) return;
+
+    // Clear any existing timer interval
+    if (timerInterval) clearInterval(timerInterval);
+
+    // Update the timer display
+    const updateTimerDisplay = () => {
+        timerDisplay.textContent = `${Math.floor(timeLeft / 60)}:${String(timeLeft % 60).padStart(2, '0')}`;
+    };
+
+    // Start the timer
+    updateTimerDisplay();
+
+    timerInterval = setInterval(() => {
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(timerInterval);
+            timerDisplay.textContent = 'Time\'s up!';
+
+            // Ask if the user needs more time
+            Swal.fire({
+                title: 'Time\'s Up!',
+                text: 'Do you need more time?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    startTimer(180); // Restart the timer for another 3 minutes
+                } else {
+                    revealBlindKindRule(); // Reveal the rule if no more time is needed
+                }
+            });
+        } else {
+            updateTimerDisplay();
+        }
+    }, 1000);
 }
 
 // Initialize Blind-Kind Mode
