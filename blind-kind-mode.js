@@ -67,6 +67,14 @@ function initBlindKindMode() {
 function handleCategoryChange(event) {
     isBlindKindMode = event.target.value === 'blind-kind';
     updateUI();
+
+    // Set the category to 'visualprompts' when BlindKind mode is activated
+    if (isBlindKindMode) {
+        const categorySelect = document.getElementById('category-select');
+        if (categorySelect) {
+            categorySelect.value = 'visualprompts'; // Programmatically set the category
+        }
+    }
 }
 
 // Update UI based on mode
@@ -97,7 +105,7 @@ function handleGenerateClick() {
         }
     } else {
         // Normal topic generation logic
-         generateTopic();
+        generateTopic(); // This function is assumed to be in script.js and handles topic generation
     }
 }
 
@@ -107,18 +115,18 @@ function startBlindKindRound() {
     isRuleRevealed = false;
     Swal.fire({
         title: 'Blind-Kind Round Started!',
-        text: 'The hidden rule has been set. Start drawing based on the regular prompt. The rule will be revealed when the timer ends!',
+        text: 'The hidden rule has been set. Start drawing based on the visual image. The rule will be revealed when the timer ends!',
         icon: 'info',
         confirmButtonText: 'Begin Drawing'
     }).then(() => {
         const currentTopic = document.getElementById('current-topic');
         const generateButton = document.getElementById('generate-button');
-        if (currentTopic) currentTopic.textContent = 'Hidden Rule Set - Draw Normally';
+        if (currentTopic) currentTopic.textContent = 'Hidden Rule Set - Draw Based on the Visual Image';
         if (generateButton) {
             generateButton.textContent = 'REVEAL RULE (for testing)';
             generateButton.onclick = revealBlindKindRule;
         }
-        startTimer();
+        startTimer(); // This function is assumed to be in script.js and handles timer start
     });
 }
 
@@ -178,4 +186,3 @@ window.startBlindKindMode = initBlindKindMode;
 window.handleCategoryChange = handleCategoryChange;
 window.handleGenerateClick = handleGenerateClick;
 window.revealBlindKindRule = revealBlindKindRule;
-window.startTimer = startTimer;
