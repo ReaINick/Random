@@ -6,62 +6,26 @@
     <title>Wheel Of Topics</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Updated Color Scheme */
+        body {
+            background-color: #1B1F3B; /* Space Cadet */
+            color: #E1BBC9; /* Fairy Tale */
             font-family: 'Arial', sans-serif;
-            background-color: #1B1F3B;
-            color: #E1BBC9;
-        }
-        header {
-            background: linear-gradient(135deg, #2a2e4a, #1B1F3B);
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            overflow-x: hidden;
         }
         header h1 {
             font-family: 'Courier New', monospace;
             font-size: 3em;
-            text-shadow: 0 0 15px #C874D9;
-            color: #B14AED;
-            margin: 0;
-        }
-        nav {
-            margin-top: 10px;
-        }
-        nav a {
-            margin: 0 15px;
-            color: #E1BBC9;
-            text-decoration: none;
-            font-size: 1.2em;
-            transition: color 0.3s ease-in-out;
-        }
-        nav a:hover {
-            color: #B14AED;
-        }
-        main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        #topic-display {
-            margin-bottom: 30px;
-        }
-        #current-topic {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            text-shadow: 0 0 15px #C874D9; /* French Mauve */
+            color: #B14AED; /* Electric Purple */
         }
         .slider-container {
             width: 100%;
             overflow: hidden;
             margin: 30px 0;
             position: relative;
-            height: 80px;
+            height: 80px; /* Adjusted height for better visibility */
         }
         .slider {
             display: flex;
@@ -71,12 +35,11 @@
             flex: 0 0 auto;
             text-align: center;
             font-size: 2em;
-            color: #E1BBC9;
-            padding: 5px 10px;
+            color: #E1BBC9; /* Fairy Tale */
         }
         button {
-            background-color: #454ADE;
-            color: #E1BBC9;
+            background-color: #454ADE; /* Iris */
+            color: #E1BBC9; /* Fairy Tale */
             border: none;
             padding: 15px 30px;
             font-size: 1.2em;
@@ -84,336 +47,122 @@
             border-radius: 5px;
             text-transform: uppercase;
             transition: all 0.3s ease-in-out;
-            margin: 5px;
         }
         button:hover {
-            background-color: #B14AED;
+            background-color: #B14AED; /* Electric Purple */
             box-shadow: 0px 4px 15px rgba(177, 74, 237, 0.75);
         }
-        input[type="number"],
-        select {
-            background-color: #454ADE;
-            color: #E1BBC9;
+        input[type="number"], select {
+            background-color: #454ADE; /* Iris */
+            color: #E1BBC9; /* Fairy Tale */
             border-radius: 5px;
-            border: none;
-            padding: 5px;
-            margin: 5px;
+            border-color: transparent;
         }
-        input[type="number"]:focus,
-        select:focus {
-            outline-color: #C874D9;
+        input[type="number"]:focus, select:focus {
+            outline-color: #C874D9; /* French Mauve */
         }
         select option {
-            background-color: #1B1F3B;
-        }
-        #topic-history {
-            list-style-type: none;
-            padding: 0;
+            background-color: #1B1F3B; /* Space Cadet */
         }
         #topic-history li {
             font-size: 1.2rem;
             margin-bottom: 10px;
         }
-        #visual-prompts-section {
-            margin-bottom: 40px;
-            padding: 20px;
-            border: 1px dashed #B14AED;
-            border-radius: 8px;
-        }
-        #visual-prompts-section h3 {
-            margin-bottom: 10px;
-        }
-        #visualprompts-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-        #visualprompts-gallery img {
-            max-width: 150px;
-            border: 2px solid #B14AED;
-            border-radius: 4px;
-        }
-        .infinite-section {
-            padding: 40px 20px;
-            background: #2a2e4a;
-            color: #E1BBC9;
-            border-bottom: 1px solid #C874D9;
-            margin-bottom: 20px;
-        }
-        .infinite-section h2 {
-            margin-top: 0;
-        }
-        .infinite-section img {
+        #topic-image-container img {
             max-width: 100%;
-            border-radius: 8px;
-            margin: 10px 0;
+            max-height: 300px;
+            object-fit: contain;
         }
-        #music-control {
-            text-align: center;
-            margin: 20px 0;
+
+        .slider-item img {
+            max-width: 150px;
+            max-height: 150px;
+            object-fit: contain;
         }
-        #music-control button {
-            font-size: 1em;
-            padding: 10px 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #1B1F3B;
-            border-top: 1px solid #C874D9;
-            font-size: 0.8em;
+
+        /* Confetti Canvas Styles */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicking through the canvas */
+            z-index: 1000; /* Ensure it's on top of other elements */
         }
     </style>
 </head>
 <body>
-    <header class="animate__animated animate__fadeIn">
-        <h1>Random Prompt Generator - Enhanced Edition</h1>
-        <nav>
-            <a href="#generator-section">Prompt Generator</a>
-            <a href="#visual-prompts-section">Visual Prompts</a>
-            <a href="#infinite-scroll-section">Infinite Scroll</a>
-            <a href="#about-section">About</a>
-        </nav>
+    <header>
+        <h1 align="center" class="animate__animated animate__fadeIn">
+            Random Prompt Generator
+        </h1>
     </header>
-
-    <main>
-        <section id="music-control" class="animate__animated animate__fadeInUp">
-            <audio id="bg-music" loop>
-                <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5797a2b3f5.mp3?filename=the-adventure-104657.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-            <button id="toggle-music">Play Background Music</button>
-        </section>
-
-        <section id="generator-section">
-            <section id="topic-display" style="margin-bottom: 30px;">
-                <h2 id="current-topic" class="animate__animated animate__pulse">
-                    Results appear here
-                </h2>
-            </section>
-
-            <div class="slider-container">
-                <div class="slider" id="topic-slider">
-                    <!-- Slider items will be dynamically added here -->
-                </div>
-            </div>
-
-            <section id="controls" style="margin-bottom: 30px; text-align: center;">
-                <button id="generate-button" class="animate__animated animate__bounceIn">
-                    SLIDE
-                </button>
-            </section>
-
-            <section id="timer-section" style="margin-bottom: 30px; text-align: center;">
-                <label for="timer-input" style="font-size: 1.2em; margin-right: 10px;">Set Timer (seconds):</label>
-                <input type="number" id="timer-input" min="10" max="300" value="60">
-                <span id="timer-display" style="font-size: 1.5em; margin-left: 10px;">60</span>
-            </section>
-
-            <section id="category-section" style="margin-bottom: 30px; text-align: center;">
-                <label for="category-select" style="font-size: 1.2em; margin-right: 10px;">Select Category:</label>
-                <select id="category-select">
-                    <option value="all">All Categories</option>
-                    <option value="animals">Animals</option>
-                    <option value="objects">Objects</option>
-                    <option value="food">Food</option>
-                    <option value="nature">Nature</option>
-                    <option value="fantasy">Fantasy</option>
-                    <option value="???">Pre-Made Prompts</option>
-                    <option value="visualprompts">Visual Prompts</option>
-                </select>
-            </section>
-
-            <section id="history-section" style="margin-top: 30px;">
-                <h3>Previous Topics</h3>
-                <ul id="topic-history">
-                    <!-- Topic history will be dynamically added here -->
-                </ul>
-            </section>
-        </section>
-
-        <section id="visual-prompts-section" class="animate__animated animate__fadeInDown">
-            <h3>Visual Prompts Gallery</h3>
-            <p>
-                Explore dynamically loaded visual prompts. Add image URLs to the Visual Prompts category in your generator to see them displayed here!
-            </p>
-            <div id="visualprompts-gallery">
-                <!-- Visual prompt images will appear here when Visual Prompts category is selected. -->
-                <img src="https://easydrawingguides.com/wp-content/uploads/2017/02/how-to-draw-bob-the-minion-featured-image-1200.png" alt="Visual Prompt">
+    <main align="center" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <!-- Topic Display Section -->
+        <section id="topic-display" style="margin-bottom: 30px;">
+            <h2 id="current-topic" style="font-size: 2.5em;" class="animate__animated animate__pulse">
+                Results appear here
+            </h2>
+            <div id="topic-image-container" style="max-width: 100%; max-height: 300px; overflow: hidden;">
+                <!-- Images will be dynamically inserted here -->
             </div>
         </section>
-
-        <section id="infinite-scroll-section">
-            <h2 class="animate__animated animate__fadeInUp" style="text-align: center;">Infinite Scroll Dashboard</h2>
-            <p style="text-align: center;">Keep scrolling down to discover more surprises!</p>
-            <div id="infinite-content">
-                <!-- Dynamically appended infinite content will be placed here -->
-                <div class="infinite-section">
-                    <h2>Section 1: The Journey Begins</h2>
-                    <p>In a land where creativity meets code, every scroll unveils a new adventure.</p>
-                    <img src="https://source.unsplash.com/random/800x400?sig=11" alt="Adventure">
-                </div>
-                <div class="infinite-section">
-                    <h2>Section 2: The Hidden Realm</h2>
-                    <p>Discover breathtaking vistas, quirky tales, and artistic wonders with every move.</p>
-                    <img src="https://source.unsplash.com/random/800x400?sig=22" alt="Hidden Realm">
-                </div>
-                <div class="infinite-section">
-                    <h2>Section 3: The Creative Abyss</h2>
-                    <p>An abyss of imagination awaits; dive into the infinite depth of inspirations!</p>
-                    <img src="https://source.unsplash.com/random/800x400?sig=33" alt="Creative Abyss">
-                </div>
-                <div class="infinite-section">
-                    <h2>Section 4: The Mystery of Code</h2>
-                    <p>Every line of code tells a story—scroll further and let the mystery unfold.</p>
-                    <img src="https://source.unsplash.com/random/800x400?sig=44" alt="Mystery of Code">
-                </div>
+        <!-- Slider Section -->
+        <div class="slider-container">
+            <div class="slider" id="topic-slider">
+                <!-- Slider items will be dynamically added here -->
             </div>
+        </div>
+        <!-- Controls Section -->
+        <section id="controls" style="margin-bottom: 30px;">
+            <button id="generate-button" class="animate__animated animate__bounceIn">
+                SLIDE
+                <!-- Audio element for sliding sound -->
+            </button>
         </section>
-
-        <section id="about-section" class="animate__animated animate__fadeInUp">
-            <h2>About This Enhanced Experience</h2>
-            <p>
-                This is the enhanced version of the classic Random Prompt Generator. Enjoy dynamic animations, immersive sound effects, infinite scrolling for extra inspiration, and spectacular confetti effects whenever a new topic is generated.
-            </p>
-            <p>
-                Features include:
-                <ul>
-                    <li>Dynamic slider animations.</li>
-                    <li>Visual prompts gallery support.</li>
-                    <li>Custom sound effects on button clicks and scroll events.</li>
-                    <li>An infinite scrolling dashboard with surprise content.</li>
-                    <li>Mirrored confetti cannons bursting from the SweetAlert popup.</li>
-                </ul>
-            </p>
-            <p>
-                Keep scrolling for more inspiration and enjoy the journey through creativity!
-            </p>
+        <!-- Timer Section -->
+        <section id="timer-section" style="margin-bottom: 30px;">
+            <label for="timer-input" style="font-size: 1.2em; margin-right: 10px;">Set Timer (seconds):</label>
+            <input type="number" id="timer-input" min="10" max="300" value="60">
+            <span id="timer-display" style="font-size: 1.5em; margin-left: 10px;">60</span>
+        </section>
+        <!-- Category Selector -->
+        <section id="category-section" style="margin-bottom: 30px;">
+            <label for="category-select" style="font-size: 1.2em; margin-right: 10px;">Select Category:</label>
+            <select id="category-select">
+                <option value="all">All Categories</option>
+                <option value="animals">Animals</option>
+                <option value="objects">Objects</option>
+                <option value="food">Food</option>
+                <option value="nature">Nature</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="???">Pre-Made Prompts</option>
+                <option value="visualprompts">Visual Prompts</option>
+            </select>
+        </section>
+        <!-- History Section -->
+        <section id="history-section" style="margin-top: 30px;">
+            <h3>Previous Topics</h3>
+            <ul id="topic-history">
+                <!-- Topic history will be dynamically added here -->
+            </ul>
         </section>
     </main>
+    <!-- Footer Section -->
+    <footer align="center" style="margin-top: 50px; font-size: 0.8em;">
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <p style="margin-right: 20px;">&copy; 2025 Wheel of Topics.  All rights reserved.</p>
+        <span style="cursor: pointer;">⚙️</span> <!-- Settings Cog -->
+    </div>
 
-    <footer>
-        <p>&copy; 2025 Wheel of Topics. All rights reserved.</p>
-        <p>Enhanced by Perplexity AI Assistant &amp; your imagination.</p>
+    <h4>About</h4>
+    <p>The Wheel Of Topics is a tool designed to provide creative inspiration. Select a category or choose 'All' for a completely random topic. Use the timer to challenge yourself, and view your recent prompts in the history section.</p>
     </footer>
-
-    <canvas id="confetti-canvas" style="position: fixed; pointer-events: none; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-
+    <!-- Confetti Effect Placeholder -->
+    <canvas id="confetti-canvas"></canvas>
+    <!-- JavaScript -->
     <script src="./prompt-generator.js"></script>
     <script src="./script.js"></script>
-
-    <script>
-        (function() {
-            const originalSwalFire = Swal.fire;
-            Swal.fire = function(options) {
-                if (typeof options === 'object') {
-                    const originalDidOpen = options.didOpen;
-                    options.didOpen = function(domElement) {
-                        confetti({
-                            particleCount: 75,
-                            angle: 45,
-                            spread: 55,
-                            origin: { x: 0.25, y: 0.5 }
-                        });
-                        confetti({
-                            particleCount: 75,
-                            angle: 135,
-                            spread: 55,
-                            origin: { x: 0.75, y: 0.5 }
-                        });
-                        if (originalDidOpen) originalDidOpen(domElement);
-                    };
-                }
-                return originalSwalFire(options);
-            };
-        })();
-
-        const bgMusic = document.getElementById('bg-music');
-        const musicToggleBtn = document.getElementById('toggle-music');
-        let musicPlaying = false;
-        musicToggleBtn.addEventListener('click', () => {
-            if (!musicPlaying) {
-                bgMusic.play();
-                musicToggleBtn.textContent = 'Pause Background Music';
-                musicPlaying = true;
-            } else {
-                bgMusic.pause();
-                musicToggleBtn.textContent = 'Play Background Music';
-                musicPlaying = false;
-            }
-        });
-
-        const scrollSound = new Audio('https://cdn.pixabay.com/audio/2021/10/07/audio_cb3a8e8fd6.mp3');
-        let lastScrollTime = Date.now();
-        window.addEventListener('scroll', () => {
-            const now = Date.now();
-            if (now - lastScrollTime > 1000) {
-                scrollSound.play();
-                lastScrollTime = now;
-            }
-        });
-
-        const infiniteContent = document.getElementById('infinite-content');
-        let sectionCounter = 5;
-        function addInfiniteSection() {
-            const newSection = document.createElement('div');
-            newSection.className = 'infinite-section';
-            newSection.innerHTML = `
-                <h2>Section ${sectionCounter}: A New Frontier</h2>
-                <p>Every scroll reveals a brand new realm of creativity. Embrace the endless inspiration!</p>
-                <img src="https://source.unsplash.com/random/800x400?sig=${Math.floor(Math.random() * 1000)}" alt="New Frontier">
-            `;
-            infiniteContent.appendChild(newSection);
-            sectionCounter++;
-        }
-        window.addEventListener('scroll', () => {
-            if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 150)) {
-                addInfiniteSection();
-            }
-        });
-
-        const generateBtn = document.getElementById('generate-button');
-        generateBtn.addEventListener('click', () => {
-            const buttonClickSound = new Audio('https://cdn.pixabay.com/audio/2021/08/09/audio_7232134569.mp3');
-            buttonClickSound.play();
-        });
-
-        const navLinks = document.querySelectorAll('nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                const navSound = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_7a99c7d0c2.mp3');
-                navSound.play();
-            });
-        });
-    </script>
-
-    <div style="height: 50px;"></div>
-    <section class="infinite-section">
-        <h2>Endless Inspiration</h2>
-        <p>Let the creativity flow as you scroll down. This page is designed to be as infinite as your imagination!</p>
-        <img src="https://source.unsplash.com/random/800x400?sig=555" alt="Inspiration">
-    </section>
-    <section class="infinite-section">
-        <h2>Waves of Creativity</h2>
-        <p>The horizon never ends, and neither does the inspiration. Welcome to your creative odyssey.</p>
-        <img src="https://source.unsplash.com/random/800x400?sig=666" alt="Waves">
-    </section>
-    <section class="infinite-section">
-        <h2>Dreamscapes</h2>
-        <p>Every scroll brings a new dream. Enjoy the mesmerizing dreamscape as it unfolds before you.</p>
-        <img src="https://source.unsplash.com/random/800x400?sig=777" alt="Dreamscape">
-    </section>
-    <section class="infinite-section">
-        <h2>Ephemeral Moments</h2>
-        <p>Capture the ephemeral moments as they glitter in the endless stream of creativity.</p>
-        <img src="https://source.unsplash.com/random/800x400?sig=888" alt="Ephemeral">
-    </section>
-    <section class="infinite-section">
-        <h2>Infinite Horizons</h2>
-        <p>The more you scroll, the farther your horizons expand. Let your thoughts wander in an never-ending landscape.</p>
-        <img src="https://source.unsplash.com/random/800x400?sig=999" alt="Horizons">
-    </section>
 </body>
 </html>
-
