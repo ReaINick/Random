@@ -1,7 +1,9 @@
 // blind-kind-mode.js
 
-// Declare timerInterval only once at the top of the script using var
-var timerInterval = null;
+// Only declare timerInterval if it's not already declared
+if (typeof timerInterval === 'undefined') {
+    var timerInterval = null;
+}
 
 // Blind-Kind Rules
 const blindKindRules = [
@@ -95,6 +97,7 @@ function handleGenerateClick() {
         }
     } else {
         // Normal topic generation logic
+         generateTopic();
     }
 }
 
@@ -150,72 +153,6 @@ function displayRule(rule) {
             generateButton.textContent = 'RULE REVEALED';
             generateButton.disabled = true;
         }
-    });
-}
-
-// Start timer
-function startTimer() {
-    const timerInput = document.getElementById('timer-input');
-    const timerDisplay = document.getElementById('timer-display');
-    clearInterval(timerInterval);
-    let timeLeft = parseInt(timerInput.value, 10);
-    updateTimerDisplay(timeLeft);
-
-    timerInterval = setInterval(() => { // Use timerInterval here without redeclaring
-        timeLeft--;
-        updateTimerDisplay(timeLeft);
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            timerEndAlert();
-        }
-    }, 1000);
-}
-
-// Update timer display
-function updateTimerDisplay(time) {
-    const timerDisplay = document.getElementById('timer-display');
-    if (timerDisplay) timerDisplay.textContent = time;
-}
-
-// Timer end alert
-function timerEndAlert() {
-    revealBlindKindRule();
-    Swal.fire({
-        title: 'Time\'s Up!',
-        text: 'The hidden rule has been revealed. Are you ready to judge the drawings?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, let\'s judge!',
-        cancelButtonText: 'No, need more time',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            showJudgingCriteria();
-        } else {
-            extendTimer();
-        }
-    });
-}
-
-// Show judging criteria
-function showJudgingCriteria() {
-    Swal.fire({
-        title: 'Judging Criteria',
-        html: `<p><strong>${currentRule.name}</strong></p><p>${currentRule.criteria}</p>`,
-        icon: 'info',
-        confirmButtonText: 'Start Judging'
-    });
-}
-
-// Extend timer
-function extendTimer() {
-    const extendedTime = 60; // 1 minute extension
-    startTimer();
-    Swal.fire({
-        title: 'Timer Extended',
-        text: `You have ${extendedTime} more seconds. The rule has been revealed.`,
-        icon: 'info',
-        timer: 2000,
-        showConfirmButton: false
     });
 }
 
