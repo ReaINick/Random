@@ -79,6 +79,46 @@
             max-height: 150px;
             object-fit: contain;
         }
+/* New styles for settings modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #1B1F3B;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #E1BBC9;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #blind-kind-button {
+            margin-top: 20px;
+        }
 
         /* Confetti Canvas Styles */
         #confetti-canvas {
@@ -149,20 +189,59 @@
             </ul>
         </section>
     </main>
-    <!-- Footer Section -->
+<!-- Footer Section -->
     <footer align="center" style="margin-top: 50px; font-size: 0.8em;">
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <p style="margin-right: 20px;">&copy; 2025 Wheel of Topics.  All rights reserved.</p>
-        <span style="cursor: pointer;">⚙️</span> <!-- Settings Cog -->
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <p style="margin-right: 20px;">&copy; 2025 Wheel of Topics. All rights reserved.</p>
+            <span id="settings-cog" style="cursor: pointer;">⚙️</span> <!-- Settings Cog -->
+        </div>
+
+        <h4>About</h4>
+        <p>The Wheel Of Topics is a tool designed to provide creative inspiration. Select a category or choose 'All' for a completely random topic. Use the timer to challenge yourself, and view your recent prompts in the history section.</p>
+    </footer>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Settings</h2>
+            <button id="blind-kind-button">Start Blind-Kind Mode</button>
+        </div>
     </div>
 
-    <h4>About</h4>
-    <p>The Wheel Of Topics is a tool designed to provide creative inspiration. Select a category or choose 'All' for a completely random topic. Use the timer to challenge yourself, and view your recent prompts in the history section.</p>
-    </footer>
     <!-- Confetti Effect Placeholder -->
     <canvas id="confetti-canvas"></canvas>
+
     <!-- JavaScript -->
     <script src="./prompt-generator.js"></script>
     <script src="./script.js"></script>
+    <script src="./blind-kind-mode.js"></script>
+    <script>
+        // Modal functionality
+        const modal = document.getElementById("settings-modal");
+        const settingsCog = document.getElementById("settings-cog");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        const blindKindButton = document.getElementById("blind-kind-button");
+
+        settingsCog.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        blindKindButton.onclick = function() {
+            // This function will be defined in blind-kind-mode.js
+            startBlindKindMode();
+            modal.style.display = "none";
+        }
+    </script>
 </body>
 </html>
